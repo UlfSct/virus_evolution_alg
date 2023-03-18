@@ -1,0 +1,2 @@
+all:
+	g++ main.cpp oneParentBinaryOperators.cpp twoParentsBinaryOperators.cpp anyParentsBinaryOperators.cpp -o main.exe
