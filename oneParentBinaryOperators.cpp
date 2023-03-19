@@ -8,7 +8,7 @@ std::vector<bool> basicMutation(std::vector<bool> parent)
         exit(1);
     }
     int geneNumber = rand() % (parent.size() - 1);
-    parent.at(geneNumber) = parent.at(geneNumber);
+    parent.at(geneNumber) = !parent.at(geneNumber);
 
     return parent;
 }
@@ -22,13 +22,8 @@ std::vector<bool> basicInversion(std::vector<bool> parent)
     }
     std::vector<bool> invertedParent(parent.size());
     int inversionPosition = 1 + rand() % (parent.size() - 1);
-    for (int i = inversionPosition; i < parent.size() - 1; i++)
-    {
-        invertedParent.at(i - inversionPosition) = parent.at(i);
-    }
-    for (int i = 0; i < inversionPosition; i++)
-    {
-        invertedParent.at(inversionPosition+1+i) = parent.at(i);
-    }
-    
+    std::copy(parent.begin() + inversionPosition, parent.end(), invertedParent.begin());
+    std::copy(parent.begin(), parent.begin() + inversionPosition, invertedParent.begin() + invertedParent.size() - inversionPosition);
+
+    return invertedParent;
 }

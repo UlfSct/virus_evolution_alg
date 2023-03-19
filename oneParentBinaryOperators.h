@@ -9,4 +9,11 @@
  */
 std::vector<bool> basicMutation(std::vector<bool> parent);
 
+/**
+ * Функция выполняет базовую инверсию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает инверсированную особь
+ */
 std::vector<bool> basicInversion(std::vector<bool> parent);
