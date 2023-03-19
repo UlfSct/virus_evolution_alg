@@ -17,3 +17,12 @@ std::vector<bool> basicMutation(std::vector<bool> parent);
  * @return Возвращает инверсированную особь
  */
 std::vector<bool> basicInversion(std::vector<bool> parent);
+
+/**
+ * Функция выполняет многопозиционную мутация
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает мутировшую особь
+ */
+std::vector<bool> multipositionMutation(std::vector<bool> parent);
