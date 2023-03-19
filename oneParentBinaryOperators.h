@@ -8,3 +8,5 @@
  * @return Возвращает мутировшую особь
  */
 std::vector<bool> basicMutation(std::vector<bool> parent);
+
+std::vector<bool> basicInversion(std::vector<bool> parent);
