@@ -101,3 +101,43 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
 
     return variantsMutatedIndividuals;
 }
+
+std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
+{
+    std::cout << "selectiveInversion";
+    if (parent.size() == 0)
+    {
+        std::cout << "The size of the vector is zero";
+        exit(1);
+    }
+    int inversionCount = 2 + rand() % (parent.size() - 1);
+    std::vector<bool> invertedIndividuals;
+    invertedIndividuals = parent;
+    std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
+    std::vector<int> usedPosition;
+    for (int inversionIndex = 0; inversionIndex < inversionCount;)
+    {
+        bool usedValue = false;
+        int inversionPosition = 1 + rand() % (variantsInvertedIndividuals.at(inversionIndex).size() - 1);
+        for (int inversionPositionIndex = 0; inversionPositionIndex < inversionIndex; inversionPositionIndex++)
+        {
+            if (usedPosition.at(inversionPositionIndex) == inversionPosition)
+            {
+                usedValue = true;
+                break;
+            }
+        }
+
+        if (!usedValue)
+        {
+            usedPosition.push_back(inversionPosition);
+
+            std::copy(invertedIndividuals.begin() + inversionPosition, invertedIndividuals.end(), variantsInvertedIndividuals.at(inversionIndex).begin());
+            std::copy(invertedIndividuals.begin(), invertedIndividuals.begin() + inversionPosition, variantsInvertedIndividuals.at(inversionIndex).begin() + variantsInvertedIndividuals.at(inversionIndex).size() - inversionPosition);
+
+            inversionIndex++;
+        }
+    }
+
+    return variantsInvertedIndividuals;
+}
