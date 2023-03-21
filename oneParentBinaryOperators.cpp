@@ -2,9 +2,10 @@
 
 std::vector<bool> basicMutation(std::vector<bool> parent)
 {
+    std::cout << "basicMutation";
     if (parent.size() == 0)
     {
-        std::cout << "Размер вектора равен нулю";
+        std::cout << "The size of the vector is zero";
         exit(1);
     }
     int geneNumber = rand() % parent.size();
@@ -15,9 +16,10 @@ std::vector<bool> basicMutation(std::vector<bool> parent)
 
 std::vector<bool> basicInversion(std::vector<bool> parent)
 {
+    std::cout << "basicInversion";
     if (parent.size() == 0)
     {
-        std::cout << "Размер вектора равен нулю";
+        std::cout << "The size of the vector is zero";
         exit(1);
     }
     std::vector<bool> invertedParent(parent.size());
@@ -30,9 +32,10 @@ std::vector<bool> basicInversion(std::vector<bool> parent)
 
 std::vector<bool> multipositionMutation(std::vector<bool> parent)
 {
+    std::cout << "multipositionMutation";
     if (parent.size() == 0)
     {
-        std::cout << "Размер вектора равен нулю";
+        std::cout << "The size of the vector is zero";
         exit(1);
     }
     int mutationCount = 1 + rand() % parent.size();
@@ -64,9 +67,10 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
 
 std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
 {
+    std::cout << "selectiveMutation";
     if (parent.size() == 0)
     {
-        std::cout << "Размер вектора равен нулю";
+        std::cout << "The size of the vector is zero";
         exit(1);
     }
     int mutationCount = 1 + rand() % parent.size();
