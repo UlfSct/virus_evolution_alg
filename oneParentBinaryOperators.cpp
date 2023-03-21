@@ -38,7 +38,7 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int mutationCount = 1 + rand() % parent.size();
+    int mutationCount = 2 + rand() % parent.size();
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
     {
@@ -73,7 +73,7 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int mutationCount = 1 + rand() % parent.size();
+    int mutationCount = 2 + rand() % parent.size();
     std::vector<bool> mutatedIndividuals;
     mutatedIndividuals = parent;
     std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, mutatedIndividuals);
