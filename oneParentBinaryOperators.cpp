@@ -131,13 +131,56 @@ std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
         if (!usedValue)
         {
             usedPosition.push_back(inversionPosition);
-
             std::copy(invertedIndividuals.begin() + inversionPosition, invertedIndividuals.end(), variantsInvertedIndividuals.at(inversionIndex).begin());
             std::copy(invertedIndividuals.begin(), invertedIndividuals.begin() + inversionPosition, variantsInvertedIndividuals.at(inversionIndex).begin() + variantsInvertedIndividuals.at(inversionIndex).size() - inversionPosition);
-
             inversionIndex++;
         }
     }
 
     return variantsInvertedIndividuals;
+}
+
+std::vector<bool> duplication(std::vector<bool> parent)
+{
+    std::cout << "duplication";
+    if (parent.size() == 0)
+    {
+        std::cout << "The size of the vector is zero";
+        exit(1);
+    }
+    std::vector<bool> duplicatedParent;
+    duplicatedParent = parent;
+    while (duplicatedParent == parent)
+    {
+        int copySize = 0;
+        int copyStartPosition = rand() % duplicatedParent.size();
+        if (copyStartPosition == duplicatedParent.size() - 1)
+        {
+            copySize = 1;
+        }
+        else
+        {
+            while (copySize < 1)
+            {
+                copySize = rand() % duplicatedParent.size() - copyStartPosition;
+            }
+        }
+        int insertStartPosition = copyStartPosition;
+        while (copyStartPosition == insertStartPosition)
+        {
+            insertStartPosition = rand() % duplicatedParent.size();
+        }
+        while (insertStartPosition + copySize > duplicatedParent.size())
+        {
+            copySize--;
+        }
+        std::vector<bool> copyGenes(copySize);
+        std::copy(duplicatedParent.begin() + copyStartPosition, duplicatedParent.begin() + copyStartPosition + copySize, copyGenes.begin());
+
+        for (int copyGenesIndex = 0; copyGenesIndex < copyGenes.size(); copyGenesIndex++)
+        {
+            duplicatedParent.at(insertStartPosition + copyGenesIndex) = copyGenes.at(copyGenesIndex);
+        }
+    }
+    return duplicatedParent;
 }

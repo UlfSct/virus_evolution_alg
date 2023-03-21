@@ -37,10 +37,19 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent);
 std::vector<std::vector<bool>> selectiveMutation();
 
 /**
-* Функция выполняет селективную инверсию
-*
-* @param parent -родительская особь
-*
-* @return Возвращает множество вариантов инверсированных особей
-*/
+ * Функция выполняет селективную инверсию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает множество вариантов инверсированных особей
+ */
 std::vector<std::vector<bool>> selectiveInversion();
+
+/**
+ * Функция выполняет дупликацию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает особь после дупликации
+ */
+std::vector<bool> duplication(std::vector<bool> parent);
