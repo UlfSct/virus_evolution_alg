@@ -184,3 +184,64 @@ std::vector<bool> duplication(std::vector<bool> parent)
     }
     return duplicatedParent;
 }
+
+std::vector<bool> fragmentInversion(std::vector<bool> parent)
+{
+    std::cout << "fragmentInversion";
+    if (parent.size() == 0)
+    {
+        std::cout << "The size of the vector is zero";
+        exit(1);
+    }
+    std::vector<bool> invertedParent;
+    int firstStartPosition = rand() % (parent.size() - 1);
+    int firstFragmentSize = 0;
+    while (firstFragmentSize < 1)
+    {
+        firstFragmentSize = rand() % parent.size() - firstStartPosition;
+    }
+    int secondStartPosition;
+    int secondFragmentSize = 0;
+    do
+    {
+        do
+        {
+            secondStartPosition = rand() % (parent.size() - 1);
+        } while (secondStartPosition >= firstStartPosition && secondStartPosition < firstStartPosition + firstFragmentSize);
+        do
+        {
+            secondFragmentSize = rand() % parent.size() - secondStartPosition;
+        } while ((secondStartPosition + secondFragmentSize >= firstStartPosition && secondStartPosition + secondFragmentSize <= firstStartPosition + firstFragmentSize) || secondFragmentSize < 1);
+    } while ((secondStartPosition < firstStartPosition + firstFragmentSize) && (secondStartPosition + secondFragmentSize > firstStartPosition));
+    if (secondStartPosition < firstStartPosition)
+    {
+        int copyVariable = firstStartPosition;
+        firstStartPosition = secondStartPosition;
+        secondStartPosition = copyVariable;
+        copyVariable = firstFragmentSize;
+        firstFragmentSize = secondFragmentSize;
+        secondFragmentSize = copyVariable;
+    }
+    for (int copyIndex = 0; copyIndex < firstStartPosition; copyIndex++)
+    {
+        invertedParent.push_back(parent.at(copyIndex));
+    }
+    for (int copyIndex = secondStartPosition; copyIndex < secondStartPosition + secondFragmentSize; copyIndex++)
+    {
+        invertedParent.push_back(parent.at(copyIndex));
+    }
+    for (int copyIndex = firstStartPosition + firstFragmentSize; copyIndex < secondStartPosition; copyIndex++)
+    {
+        invertedParent.push_back(parent.at(copyIndex));
+    }
+    for (int copyIndex = firstStartPosition; copyIndex < firstStartPosition + firstFragmentSize; copyIndex++)
+    {
+        invertedParent.push_back(parent.at(copyIndex));
+    }
+    for (int copyIndex = secondStartPosition + secondFragmentSize; copyIndex < parent.size(); copyIndex++)
+    {
+        invertedParent.push_back(parent.at(copyIndex));
+    }
+
+    return invertedParent;
+}

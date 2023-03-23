@@ -53,3 +53,12 @@ std::vector<std::vector<bool>> selectiveInversion();
  * @return Возвращает особь после дупликации
  */
 std::vector<bool> duplication(std::vector<bool> parent);
+
+/**
+ * Функция выполняет фаргментарную инверсию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает инверсированную особь
+ */
+std::vector<bool> fragmentInversion(std::vector<bool> parent);
