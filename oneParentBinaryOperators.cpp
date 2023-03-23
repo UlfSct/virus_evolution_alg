@@ -245,3 +245,58 @@ std::vector<bool> fragmentInversion(std::vector<bool> parent)
 
     return invertedParent;
 }
+
+std::vector<bool> multipositionInversion(std::vector<bool> parent)
+{
+    std::cout << "multipositionInversion";
+    if (parent.size() == 0)
+    {
+        std::cout << "The size of the vector is zero";
+        exit(1);
+    }
+    std::vector<bool> invertedParent;
+    int divisionCount = 2 + rand() % (parent.size() - 1);
+    std::vector<int> dividingPositions;
+    for (int divisionIndex = 0; divisionIndex < divisionCount;)
+    {
+        bool usedValue = false;
+        int inversionPosition = 1 + rand() % (parent.size() - 1);
+        for (int inversionPositionIndex = 0; inversionPositionIndex < divisionIndex; inversionPositionIndex++)
+        {
+            if (dividingPositions.at(inversionPositionIndex) == inversionPosition)
+            {
+                usedValue = true;
+                break;
+            }
+        }
+        if (!usedValue)
+        {
+            dividingPositions.push_back(inversionPosition);
+            divisionIndex++;
+        }
+    }
+    sort(dividingPositions.begin(), dividingPositions.end());
+    std::vector<std::vector<bool>> parentFragments(divisionCount + 1);
+    int geneIndex = 0;
+    for (int fragmentIndex = 0; fragmentIndex < divisionCount; fragmentIndex++)
+    {
+        for (geneIndex; geneIndex < dividingPositions.at(fragmentIndex); geneIndex++)
+        {
+            parentFragments.at(fragmentIndex).push_back(parent.at(geneIndex));
+        }
+    }
+    for (geneIndex; geneIndex < parent.size(); geneIndex++)
+    {
+        parentFragments.at(parentFragments.size() - 1).push_back(parent.at(geneIndex));
+    }
+    while (invertedParent.size() != parent.size())
+    {
+        int fragmentIndex = rand() % parentFragments.size();
+        invertedParent.insert(invertedParent.end(), parentFragments.at(fragmentIndex).begin(), parentFragments.at(fragmentIndex).end());
+        parentFragments.at(fragmentIndex).clear();
+        parentFragments.at(fragmentIndex) = parentFragments.at(parentFragments.size() - 1);
+        parentFragments.resize(parentFragments.size() - 1);
+    }
+
+    return invertedParent;
+}

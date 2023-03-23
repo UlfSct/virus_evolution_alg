@@ -62,3 +62,12 @@ std::vector<bool> duplication(std::vector<bool> parent);
  * @return Возвращает инверсированную особь
  */
 std::vector<bool> fragmentInversion(std::vector<bool> parent);
+
+/**
+ * Функция выполняет многопозиционную инверсию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает инверсированную особь
+ */
+std::vector<bool> multipositionInversion(std::vector<bool> parent);
