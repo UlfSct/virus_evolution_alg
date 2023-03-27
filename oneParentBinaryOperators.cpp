@@ -1,12 +1,12 @@
 #include "oneParentBinaryOperators.h"
-#include <vector>
 
 std::vector<bool> translocation(std::vector<bool> parent)
 {
+    std::cout << "Translocation operator" << std::endl;
     srand(time(NULL));
     if (parent.size() == 0)
     {
-        std::cout << "Размер вектора равен нулю";
+        std::cout << "Error: Vector is empty" << std::endl;
         exit(1);
     }
 
