@@ -1,13 +1,12 @@
 #include "config.h"
 
 /*
-* Функция выполняет операцию транслокации
-*
-* @param parent -родительская особь
-*
-* @return Возвращает мутировшую особь
-*/
-
+ * Функция выполняет операцию транслокации
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает мутировшую особь
+ */
 std::vector<bool> translocation(std::vector<bool> parent);
 
 /**
@@ -42,7 +41,7 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent);
  *
  * @param parent -родительская особь
  *
- * @return Возвращает множество вариантов мутировших особей мутировшую особь
+ * @return Возвращает множество вариантов мутировших особей
  */
 std::vector<std::vector<bool>> selectiveMutation();
 

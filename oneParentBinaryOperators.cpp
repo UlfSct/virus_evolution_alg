@@ -1,6 +1,5 @@
 #include "oneParentBinaryOperators.h"
 
-
 std::vector<bool> translocation(std::vector<bool> parent)
 {
     std::cout << "Translocation operator" << std::endl;
@@ -12,7 +11,7 @@ std::vector<bool> translocation(std::vector<bool> parent)
     }
 
     int genePositionFirst, genePositionLast;
-    
+
     do
     {
         genePositionFirst = rand() % parent.size() - 1;
@@ -27,7 +26,8 @@ std::vector<bool> translocation(std::vector<bool> parent)
         tmpParent.push_back(parent[genePosition]);
     }
 
-    for (int i = 0; i < tmpParent.size(); i++) {
+    for (int i = 0; i < tmpParent.size(); i++)
+    {
         std::cout << tmpParent[i] << " ";
     }
 
@@ -79,7 +79,7 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int mutationCount = 2 + rand() % parent.size();
+    int mutationCount = 2 + rand() % (parent.size() - 1);
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
     {
@@ -106,7 +106,6 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
     return parent;
 }
 
-
 std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
 {
     std::cout << "selectiveMutation";
@@ -115,7 +114,7 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int mutationCount = 2 + rand() % parent.size();
+    int mutationCount = 2 + rand() % (parent.size() - 1);
     std::vector<bool> mutatedIndividuals;
     mutatedIndividuals = parent;
     std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, mutatedIndividuals);
@@ -297,7 +296,7 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
         exit(1);
     }
     std::vector<bool> invertedParent;
-    int divisionCount = 2 + rand() % (parent.size() - 1);
+    int divisionCount = 2 + rand() % (parent.size() - 2);
     std::vector<int> dividingPositions;
     for (int divisionIndex = 0; divisionIndex < divisionCount;)
     {
