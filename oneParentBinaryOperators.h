@@ -81,4 +81,4 @@ std::vector<bool> fragmentInversion(std::vector<bool> parent);
  * @return Возвращает инверсированную особь
  */
 std::vector<bool> multipositionInversion(std::vector<bool> parent);
->>>>>>> 574f1f0867e5054229a08bdd4ff4d751370d9fb9
+
