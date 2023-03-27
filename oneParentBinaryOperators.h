@@ -1,5 +1,15 @@
 #include "config.h"
 
+/*
+* Функция выполняет операцию транслокации
+*
+* @param parent -родительская особь
+*
+* @return Возвращает мутировшую особь
+*/
+
+std::vector<bool> translocation(std::vector<bool> parent);
+
 /**
  * Функция выполняет базовую мутацию
  *
@@ -71,3 +81,4 @@ std::vector<bool> fragmentInversion(std::vector<bool> parent);
  * @return Возвращает инверсированную особь
  */
 std::vector<bool> multipositionInversion(std::vector<bool> parent);
+>>>>>>> 574f1f0867e5054229a08bdd4ff4d751370d9fb9
