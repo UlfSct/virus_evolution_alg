@@ -164,3 +164,53 @@ std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParen
 
     return variantsDaughterSpecies;
 }
+
+std::vector<std::vector<bool>> templateCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent, std::vector<bool> pattern)
+{
+    std::cout << "homogeneousCrossover";
+    if ((firstParent.size() == 0) || (secondParent.size() == 0) || (pattern.size() == 0))
+    {
+        if ((firstParent.size() == 0) && (secondParent.size() == 0) && (pattern.size() == 0))
+        {
+            std::cout << "The size of all vectors is zero";
+            exit(1);
+        }
+        else
+        {
+            if (firstParent.size() == 0)
+            {
+                std::cout << "The size of the first vector is zero";
+                exit(1);
+            }
+            else
+            {
+                if (secondParent.size() == 0)
+                {
+                    std::cout << "The size of the second vector is zero";
+                    exit(1);
+                }
+                else
+                {
+                    std::cout << "The size of the pattern vector is zero";
+                    exit(1);
+                }
+            }
+        }
+    }
+    std::vector<std::vector<bool>> variantsDaughterSpecies(2);
+    for (int geneIndex = 0; geneIndex < firstParent.size(); geneIndex++)
+    {
+        if (pattern.at(geneIndex))
+        {
+            variantsDaughterSpecies.at(0).push_back(secondParent.at(geneIndex));
+            variantsDaughterSpecies.at(1).push_back(firstParent.at(geneIndex));
+        }
+        else
+        {
+            variantsDaughterSpecies.at(0).push_back(firstParent.at(geneIndex));
+            variantsDaughterSpecies.at(1).push_back(secondParent.at(geneIndex));
+        }
+    }
+
+    return variantsDaughterSpecies;
+}
