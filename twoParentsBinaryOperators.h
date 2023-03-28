@@ -19,3 +19,14 @@ std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std
  * @return Возвращает две дочерние особи
  */
 std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent);
+
+
+/**
+ * Функция выполняет однородный кроссовер
+ *
+ * @param firstParent - первая родительская особь
+ * @param secondParent -вторая родительская особь
+ *
+ * @return Возвращает две дочерние особи
+ */
+std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent);
