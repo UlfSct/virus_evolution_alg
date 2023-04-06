@@ -8,3 +8,12 @@
  * @return Возвращает дочернюю особь
  */
 std::vector<bool> segregation(std::vector<std::vector<bool>> parents);
+
+/**
+ * Функция выполняет многохромосомный кроссовер
+ *
+ * @param parents - вектор родительских особей
+ *
+ * @return Возвращает множество дочерних особей
+ */
+std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector<bool>> parents);
