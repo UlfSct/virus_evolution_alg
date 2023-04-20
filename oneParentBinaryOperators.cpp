@@ -2,11 +2,10 @@
 
 std::vector<bool> translocation(std::vector<bool> parent)
 {
-    std::cout << "Translocation operator" << std::endl;
     srand(time(NULL));
     if (parent.size() == 0)
     {
-        std::cout << "Error: Vector is empty" << std::endl;
+        std::cout << "Error: Vector is empty\n" << std::endl;
         exit(1);
     }
 
@@ -26,11 +25,6 @@ std::vector<bool> translocation(std::vector<bool> parent)
         tmpParent.push_back(parent[genePosition]);
     }
 
-    for (int i = 0; i < tmpParent.size(); i++)
-    {
-        std::cout << tmpParent[i] << " ";
-    }
-
     std::reverse(tmpParent.begin(), tmpParent.end());
 
     for (int geneParentPosition = genePositionFirst, geneTmpParentPosition = 0; geneTmpParentPosition < tmpParent.size(); geneParentPosition++, geneTmpParentPosition++)
@@ -43,10 +37,9 @@ std::vector<bool> translocation(std::vector<bool> parent)
 
 std::vector<bool> basicMutation(std::vector<bool> parent)
 {
-    std::cout << "basicMutation";
     if (parent.size() == 0)
     {
-        std::cout << "The size of the vector is zero";
+        std::cout << "The size of the vector is zero\n";
         exit(1);
     }
     int geneNumber = rand() % parent.size();
@@ -57,10 +50,9 @@ std::vector<bool> basicMutation(std::vector<bool> parent)
 
 std::vector<bool> basicInversion(std::vector<bool> parent)
 {
-    std::cout << "basicInversion";
     if (parent.size() == 0)
     {
-        std::cout << "The size of the vector is zero";
+        std::cout << "The size of the vector is zero\n";
         exit(1);
     }
     std::vector<bool> invertedParent(parent.size());
@@ -73,10 +65,9 @@ std::vector<bool> basicInversion(std::vector<bool> parent)
 
 std::vector<bool> multipositionMutation(std::vector<bool> parent)
 {
-    std::cout << "multipositionMutation";
     if (parent.size() == 0)
     {
-        std::cout << "The size of the vector is zero";
+        std::cout << "The size of the vector is zero\n";
         exit(1);
     }
     int mutationCount = 2 + rand() % (parent.size() - 1);
@@ -106,87 +97,12 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
     return parent;
 }
 
-std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
-{
-    std::cout << "selectiveMutation";
-    if (parent.size() == 0)
-    {
-        std::cout << "The size of the vector is zero";
-        exit(1);
-    }
-    int mutationCount = 2 + rand() % (parent.size() - 1);
-    std::vector<bool> mutatedIndividuals;
-    mutatedIndividuals = parent;
-    std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, mutatedIndividuals);
-    std::vector<int> mutatedGenes;
-    for (int mutationIndex = 0; mutationIndex < mutationCount;)
-    {
-        bool usedValue = false;
-        int geneNumber = rand() % variantsMutatedIndividuals.at(mutationIndex).size();
-        for (int mutatedGenesIndex = 0; mutatedGenesIndex < mutationIndex; mutatedGenesIndex++)
-        {
-            if (mutatedGenes.at(mutatedGenesIndex) == geneNumber)
-            {
-                usedValue = true;
-                break;
-            }
-        }
-
-        if (!usedValue)
-        {
-            mutatedGenes.push_back(geneNumber);
-            variantsMutatedIndividuals.at(mutationIndex).at(geneNumber) = !variantsMutatedIndividuals.at(mutationIndex).at(geneNumber);
-            mutationIndex++;
-        }
-    }
-
-    return variantsMutatedIndividuals;
-}
-
-std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
-{
-    std::cout << "selectiveInversion";
-    if (parent.size() == 0)
-    {
-        std::cout << "The size of the vector is zero";
-        exit(1);
-    }
-    int inversionCount = 2 + rand() % (parent.size() - 1);
-    std::vector<bool> invertedIndividuals;
-    invertedIndividuals = parent;
-    std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
-    std::vector<int> usedPosition;
-    for (int inversionIndex = 0; inversionIndex < inversionCount;)
-    {
-        bool usedValue = false;
-        int inversionPosition = 1 + rand() % (variantsInvertedIndividuals.at(inversionIndex).size() - 1);
-        for (int inversionPositionIndex = 0; inversionPositionIndex < inversionIndex; inversionPositionIndex++)
-        {
-            if (usedPosition.at(inversionPositionIndex) == inversionPosition)
-            {
-                usedValue = true;
-                break;
-            }
-        }
-
-        if (!usedValue)
-        {
-            usedPosition.push_back(inversionPosition);
-            std::copy(invertedIndividuals.begin() + inversionPosition, invertedIndividuals.end(), variantsInvertedIndividuals.at(inversionIndex).begin());
-            std::copy(invertedIndividuals.begin(), invertedIndividuals.begin() + inversionPosition, variantsInvertedIndividuals.at(inversionIndex).begin() + variantsInvertedIndividuals.at(inversionIndex).size() - inversionPosition);
-            inversionIndex++;
-        }
-    }
-
-    return variantsInvertedIndividuals;
-}
 
 std::vector<bool> duplication(std::vector<bool> parent)
 {
-    std::cout << "duplication";
     if (parent.size() == 0)
     {
-        std::cout << "The size of the vector is zero";
+        std::cout << "The size of the vector is zero\n";
         exit(1);
     }
     std::vector<bool> duplicatedParent;
@@ -228,10 +144,9 @@ std::vector<bool> duplication(std::vector<bool> parent)
 
 std::vector<bool> fragmentInversion(std::vector<bool> parent)
 {
-    std::cout << "fragmentInversion";
     if (parent.size() == 0)
     {
-        std::cout << "The size of the vector is zero";
+        std::cout << "The size of the vector is zero\n";
         exit(1);
     }
     std::vector<bool> invertedParent;
@@ -289,10 +204,9 @@ std::vector<bool> fragmentInversion(std::vector<bool> parent)
 
 std::vector<bool> multipositionInversion(std::vector<bool> parent)
 {
-    std::cout << "multipositionInversion";
     if (parent.size() == 0)
     {
-        std::cout << "The size of the vector is zero";
+        std::cout << "The size of the vector is zero\n";
         exit(1);
     }
     std::vector<bool> invertedParent;
