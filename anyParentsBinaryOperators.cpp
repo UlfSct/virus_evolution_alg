@@ -2,7 +2,6 @@
 
 std::vector<bool> segregation(std::vector<std::vector<bool>> parents)
 {
-    std::cout << "segregation";
     if (parents.size() == 0)
     {
         std::cout << "The size of the vector is zero";
@@ -39,7 +38,6 @@ std::vector<bool> segregation(std::vector<std::vector<bool>> parents)
 
 std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector<bool>> parents)
 {
-    std::cout << "multichromosomalCrossover";
     if (parents.size() == 0)
     {
         std::cout << "The size of the vector is zero";

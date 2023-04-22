@@ -46,15 +46,6 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent);
 std::vector<bool> duplication(std::vector<bool> parent);
 
 /**
- * Функция выполняет фаргментарную инверсию
- *
- * @param parent -родительская особь
- *
- * @return Возвращает инверсированную особь
- */
-std::vector<bool> fragmentInversion(std::vector<bool> parent);
-
-/**
  * Функция выполняет многопозиционную инверсию
  *
  * @param parent -родительская особь
@@ -62,3 +53,21 @@ std::vector<bool> fragmentInversion(std::vector<bool> parent);
  * @return Возвращает инверсированную особь
  */
 std::vector<bool> multipositionInversion(std::vector<bool> parent);
+
+/**
+ * Функция выполняет селективную мутацию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает множество вариантов мутировших особей
+ */
+std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent);
+
+/**
+ * Функция выполняет селективную инверсию
+ *
+ * @param parent -родительская особь
+ *
+ * @return Возвращает множество вариантов инверсированных особей
+ */
+std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent);

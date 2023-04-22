@@ -29,14 +29,3 @@ std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstPar
  * @return Возвращает две дочерние особи
  */
 std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent);
-
-/**
- * Функция выполняет шаблонный кроссовер
- *
- * @param firstParent - первая родительская особь
- * @param secondParent -вторая родительская особь
- * @param pattern - шаблон
- *
- * @return Возвращает две дочерние особи
- */
-std::vector<std::vector<bool>> templateCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent, std::vector<bool> pattern);
