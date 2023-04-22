@@ -36,7 +36,7 @@ std::vector<bool> segregation(std::vector<std::vector<bool>> parents)
     return daughter;
 }
 
-std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector<bool>> parents)
+std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector<bool>> parents, const int max_daughter_amount)
 {
     if (parents.size() == 0)
     {
@@ -131,7 +131,7 @@ std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector
                 newDaughter = false;
             }
         }
-        if (numberDaughterIndividuals == 100)
+        if (numberDaughterIndividuals == max_daughter_amount)
         {
             break;
         }

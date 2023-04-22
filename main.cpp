@@ -249,7 +249,6 @@ void sortPopulationByFitness(std::vector<Virus *> &population, bool finding_min,
         if (population[i]->isStrain())
         {
             std::swap(population[i], population[min_i]);
-            std::cout<<"!!!!!!!!!!!!!!\n";
         }
     }
     if (strain_amount >= 2)
@@ -320,7 +319,11 @@ int differenceInHammingDistance(std::vector<bool> elite, std::vector<bool> strai
     return distance;
 }
 
-void mutateVirus(std::vector<bool> data, std::vector<Virus *> &population, std::vector<std::vector<bool>> &new_viruses, int empty_steps, const int max_empty_steps)
+void mutateVirus(std::vector<bool> data,
+                 std::vector<Virus *> &population,
+                 std::vector<std::vector<bool>> &new_viruses,
+                 int empty_steps, const int max_empty_steps,
+                 const int max_daughter_amount)
 {
     double indexForSelect = 1 + double(rand()) * double(pow(14.0, 1.0 + double(empty_steps) / double(max_empty_steps))) / RAND_MAX;
     int mutationIndex;
@@ -359,7 +362,7 @@ void mutateVirus(std::vector<bool> data, std::vector<Virus *> &population, std::
         new_viruses.push_back(greyToBytes(duplication(bytesToGrey(data))));
         break;
     case 7:
-        daughterSpecies = selectiveMutation(bytesToGrey(data));
+        daughterSpecies = selectiveMutation(bytesToGrey(data), max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
             new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
@@ -391,7 +394,7 @@ void mutateVirus(std::vector<bool> data, std::vector<Virus *> &population, std::
         }
         break;
     case 12:
-        daughterSpecies = selectiveInversion(bytesToGrey(data));
+        daughterSpecies = selectiveInversion(bytesToGrey(data), max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
             new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
@@ -403,7 +406,7 @@ void mutateVirus(std::vector<bool> data, std::vector<Virus *> &population, std::
         {
             parents.push_back(bytesToGrey(population[indexParent]->getData()));
         }
-        daughterSpecies = multichromosomalCrossover(parents);
+        daughterSpecies = multichromosomalCrossover(parents, max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
             new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
@@ -430,7 +433,8 @@ void virusAlgorithm(
     const int max_strain_amount,
     const int max_parent_amount,
     const int strain_duplication_radius,
-    const double step_in_strain_duplication_radius)
+    const double step_in_strain_duplication_radius,
+    const int max_daughter_amount)
 {
     std::vector<Virus *> population;
     int strain_amount = 0;
@@ -449,7 +453,7 @@ void virusAlgorithm(
             population.push_back(new Virus(population[i]->getData(), parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
             population[i]->iterationInEliteGroup();
             std::vector<std::vector<bool>> new_viruses;
-            mutateVirus(population[i]->getData(), population, new_viruses, empty_steps, max_empty_steps);
+            mutateVirus(population[i]->getData(), population, new_viruses, empty_steps, max_empty_steps, max_daughter_amount);
             for (auto new_virus : new_viruses)
             {
                 population.push_back(new Virus(new_virus, parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
@@ -470,7 +474,7 @@ void virusAlgorithm(
         for (int i = population_size; i < current_population_size; i++)
         {
             std::vector<std::vector<bool>> new_viruses;
-            mutateVirus(population[i]->getData(), population, new_viruses, empty_steps, max_empty_steps);
+            mutateVirus(population[i]->getData(), population, new_viruses, empty_steps, max_empty_steps, max_daughter_amount);
             for (auto new_virus : new_viruses)
             {
                 population.push_back(new Virus(new_virus, parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
@@ -592,7 +596,8 @@ int main()
         MAX_STRAIN_AMOUNT,
         MAX_PARENT_AMOUNT,
         STRAIN_DUPLICATION_RADIUS,
-        STEP_IN_STRAIN_DUPLICATION_RADIUS
+        STEP_IN_STRAIN_DUPLICATION_RADIUS,
+        MAX_DAUGHTER_AMOUNT
         // процент сходимости
         // количество вызовов целевой функции
     );

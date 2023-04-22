@@ -199,14 +199,14 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
     return invertedParent;
 }
 
-std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
+std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const int max_daughter_amount)
 {
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int mutationCount = 2 + rand() % (parent.size() - 1);
+    int mutationCount = 2 + rand() % max_daughter_amount;
     std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, parent);
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
@@ -233,14 +233,14 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
     return variantsMutatedIndividuals;
 }
 
-std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
+std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, const int max_daughter_amount)
 {
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int inversionCount = 2 + rand() % 10;
+    int inversionCount = 2 + rand() % max_daughter_amount;
     std::vector<bool> invertedIndividuals;
     invertedIndividuals = parent;
     std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
