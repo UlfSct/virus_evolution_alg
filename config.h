@@ -47,3 +47,6 @@ const int STRAIN_DUPLICATION_RADIUS = 2;
 
 // Константа шаг поиска вокруг штамма
 const double STEP_IN_STRAIN_DUPLICATION_RADIUS = 0.1;
+
+// Константа максимально количества дочерних особей
+const int MAX_DAUGHTER_AMOUNT = 100;
