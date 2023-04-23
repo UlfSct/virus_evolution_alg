@@ -2,7 +2,6 @@
 
 std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent)
 {
-    std::cout << "basicCrossover";
     if ((firstParent.size() == 0) || (secondParent.size() == 0))
     {
         if ((firstParent.size() == 0) && (secondParent.size() == 0))
@@ -45,7 +44,6 @@ std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std
 
 std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent)
 {
-    std::cout << "multipositionCrossover";
     if ((firstParent.size() == 0) || (secondParent.size() == 0))
     {
         if ((firstParent.size() == 0) && (secondParent.size() == 0))
@@ -88,6 +86,8 @@ std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstPar
         }
     }
     sort(dividingPositions.begin(), dividingPositions.end());
+    dividingPositions.pop_back();
+    dividingPositions.push_back(firstParent.size()-1);
     std::vector<std::vector<bool>> variantsDaughterSpecies(2);
     int fragmentNumber = 0;
     for (int geneIndex = 0; geneIndex < firstParent.size(); geneIndex++)
@@ -113,7 +113,6 @@ std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstPar
 
 std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent)
 {
-    std::cout << "homogeneousCrossover";
     if ((firstParent.size() == 0) || (secondParent.size() == 0))
     {
         if ((firstParent.size() == 0) && (secondParent.size() == 0))
@@ -137,78 +136,23 @@ std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParen
     }
     float thresholdValue = 0.7;
     std::vector<std::vector<bool>> variantsDaughterSpecies(2);
-    do
-    {
-        variantsDaughterSpecies.at(0).clear();
-        variantsDaughterSpecies.at(1).clear();
-        std::vector<float> randomNumbers(firstParent.size());
-        for (int geneIndex = 0; geneIndex < firstParent.size(); geneIndex++)
-        {
-            float randomValue = static_cast<float>(rand()) * static_cast<float>(1) / RAND_MAX;
-            randomNumbers.at(geneIndex) = randomValue;
-        }
-        for (int geneIndex = 0; geneIndex < firstParent.size(); geneIndex++)
-        {
-            if (randomNumbers.at(geneIndex) >= thresholdValue)
-            {
-                variantsDaughterSpecies.at(0).push_back(firstParent.at(geneIndex));
-                variantsDaughterSpecies.at(1).push_back(secondParent.at(geneIndex));
-            }
-            else
-            {
-                variantsDaughterSpecies.at(0).push_back(secondParent.at(geneIndex));
-                variantsDaughterSpecies.at(1).push_back(firstParent.at(geneIndex));
-            }
-        }
-    } while (firstParent == variantsDaughterSpecies.at(0) || secondParent == variantsDaughterSpecies.at(0));
-
-    return variantsDaughterSpecies;
-}
-
-std::vector<std::vector<bool>> templateCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent, std::vector<bool> pattern)
-{
-    std::cout << "homogeneousCrossover";
-    if ((firstParent.size() == 0) || (secondParent.size() == 0) || (pattern.size() == 0))
-    {
-        if ((firstParent.size() == 0) && (secondParent.size() == 0) && (pattern.size() == 0))
-        {
-            std::cout << "The size of all vectors is zero";
-            exit(1);
-        }
-        else
-        {
-            if (firstParent.size() == 0)
-            {
-                std::cout << "The size of the first vector is zero";
-                exit(1);
-            }
-            else
-            {
-                if (secondParent.size() == 0)
-                {
-                    std::cout << "The size of the second vector is zero";
-                    exit(1);
-                }
-                else
-                {
-                    std::cout << "The size of the pattern vector is zero";
-                    exit(1);
-                }
-            }
-        }
-    }
-    std::vector<std::vector<bool>> variantsDaughterSpecies(2);
+    std::vector<float> randomNumbers(firstParent.size());
     for (int geneIndex = 0; geneIndex < firstParent.size(); geneIndex++)
     {
-        if (pattern.at(geneIndex))
-        {
-            variantsDaughterSpecies.at(0).push_back(secondParent.at(geneIndex));
-            variantsDaughterSpecies.at(1).push_back(firstParent.at(geneIndex));
-        }
-        else
+        float randomValue = static_cast<float>(rand()) * static_cast<float>(1) / RAND_MAX;
+        randomNumbers.at(geneIndex) = randomValue;
+    }
+    for (int geneIndex = 0; geneIndex < firstParent.size(); geneIndex++)
+    {
+        if (randomNumbers.at(geneIndex) >= thresholdValue)
         {
             variantsDaughterSpecies.at(0).push_back(firstParent.at(geneIndex));
             variantsDaughterSpecies.at(1).push_back(secondParent.at(geneIndex));
+        }
+        else
+        {
+            variantsDaughterSpecies.at(0).push_back(secondParent.at(geneIndex));
+            variantsDaughterSpecies.at(1).push_back(firstParent.at(geneIndex));
         }
     }
 

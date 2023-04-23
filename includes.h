@@ -3,8 +3,7 @@
 #include <algorithm>
 #include <ctime>
 #include <cmath>
-#include <iostream>
 #include <iomanip>
-
+#include <random>
 
 const float PI = 3.1415926535;
