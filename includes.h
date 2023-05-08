@@ -5,5 +5,7 @@
 #include <cmath>
 #include <iomanip>
 #include <random>
+#include <fstream>
+
 
 const float PI = 3.1415926535;

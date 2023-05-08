@@ -1,10 +1,10 @@
 #include "includes.h"
 
 // размер элитки
-const int ELITE_GROUP_SIZE = 10;
+const int ELITE_GROUP_SIZE = 1;
 
 // размер популяции
-const int POPULATION_SIZE = 100;
+const int POPULATION_SIZE = 10;
 
 // размер параметра
 const int INDIVIDUAL_PARAMETER_SIZE = 30;
@@ -25,10 +25,10 @@ const double PARAMETERS_MAX_VALUES[PARAMETERS_AMOUNT] = {512.0, 512.0};
 const bool FINDING_MIN = true;
 
 // Константа максимального количества пустых шагов
-const int MAX_EMPTY_STEPS = 200;
+const int MAX_EMPTY_STEPS = 20000;
 
 // Константа максимального количества шагов
-const int MAX_STEPS = 10000;
+const int MAX_STEPS = 1000;
 
 // Количество итераций, чтобы вирус из элитки стал штаммом
 const int ITERATIONS_FOR_STRAIN = 30;
