@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <random>
 #include <fstream>
+#include <chrono>
 
 
 const float PI = 3.1415926535;
