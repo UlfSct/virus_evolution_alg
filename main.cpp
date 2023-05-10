@@ -164,6 +164,12 @@ double virusAlgorithm
     population_out.open("logs/population_out.txt");
     population_out.close();
 
+    // вывод количества итераций в файл
+    std::ofstream iter_out;
+
+    // вывод только результатов в файл
+    std::ofstream optimized_out;
+
     while (empty_steps < max_empty_steps && current_step <= max_steps)
     {
         //  сортировка
@@ -404,6 +410,16 @@ double virusAlgorithm
         tech_out << "MAX_STEPS_EXCEED\n";
     }
 
+    // Вывод количества итерация для тестирования
+    iter_out.open("logs/iter_out.txt", std::ios::app);
+    iter_out << current_step << "\n";
+    iter_out.close();
+
+    // вывод только результатов в файл для тестирования
+    optimized_out.open("logs/optimized_out.txt", std::ios::app);
+    optimized_out << optimized_value << "\n";
+    optimized_out.close();
+
     // Вывод результатов оптимизации
     population[optimized_value_index]->printResults(parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values);
 
@@ -413,23 +429,76 @@ double virusAlgorithm
 int main()
 {
     srand(time(0));
-    virusAlgorithm(
-        ELITE_GROUP_SIZE,
-        POPULATION_SIZE,
-        INDIVIDUAL_PARAMETER_SIZE,
-        STRAIN_MIN_HAMMING_DIFFERENCE,
-        PARAMETERS_AMOUNT,
-        PARAMETERS_MIN_VALUES,
-        PARAMETERS_MAX_VALUES,
-        FINDING_MIN,
-        MAX_EMPTY_STEPS,
-        MAX_STEPS,
-        ITERATIONS_FOR_STRAIN,
-        ITERATIONS_IN_STRAIN,
-        MAX_STRAIN_AMOUNT,
-        MAX_PARENT_AMOUNT,
-        MAX_DAUGHTER_AMOUNT,
-        STRAIN_OPERATIONS_RATIO
-    );
+    
+    // вывод количества итераций в файл
+    std::ofstream iter_out;
+    iter_out.open("logs/iter_out.txt");
+    iter_out.close();
+
+    // вывод только результатов в файл
+    std::ofstream optimized_out;
+    optimized_out.open("logs/optimized_out.txt");
+    optimized_out.close();
+
+    //  ДЕФОЛТНЫЕ ЗНАЧЕНИЯ
+    //
+    // int population_size = 300; 
+    // double elite_percentage = 0.4;
+    // double strain_percentage = 0.1;
+    // int individual_parameter_size = 15;
+    // int strain_min_hamming_difference = 3;
+    // int max_steps = 300;
+    // double empty_steps_percentage = 0.2;
+    // int iterations_in_strain = 10;
+    // int iterations_for_strain = 10;
+    // int max_parent_amount = 6;
+    // int max_daughter_amount = 100;
+    // int strain_operations_ratio = 3;
+
+    int population_size = 300; 
+    double elite_percentage = 0.4;
+    double strain_percentage = 0.1;
+    int individual_parameter_size = 15;
+    int strain_min_hamming_difference = 3;
+    int max_steps = 300;
+    double empty_steps_percentage = 0.2;
+    int iterations_in_strain = 10;
+    int iterations_for_strain = 10;
+    int max_parent_amount = 6;
+    int max_daughter_amount = 100;
+    int strain_operations_ratio = 3;
+
+
+    const int N = 10;
+    std::chrono::duration<double> sum = std::chrono::seconds(0);
+    for (int i = 0; i < N; i++)
+    {
+        std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+
+        virusAlgorithm(
+            population_size * elite_percentage, // размер элитки
+            population_size, // размер полюции
+            individual_parameter_size, // размер булевого вектора одного параметра (влияет на точность значений)
+            strain_min_hamming_difference, // разница хэмминга для штамма
+            PARAMETERS_AMOUNT, // НЕ ДЕЛАТЬ ЕБАТЬ
+            PARAMETERS_MIN_VALUES, // НЕ ДЕЛАТЬ ЕБАТЬ
+            PARAMETERS_MAX_VALUES, // НЕ ДЕЛАТЬ ЕБАТЬ
+            FINDING_MIN, // НЕ ДЕЛАТЬ ЕБАТЬ
+            max_steps * empty_steps_percentage, // количество пустых шагов максимальное
+            max_steps, // макс количество шагов
+            iterations_for_strain, // итераций чтобы стать штаммом
+            iterations_in_strain, // итераций быть штаммом
+            population_size * strain_percentage, // размер группы штаммов
+            max_parent_amount, // макс количество родителей для ген операторов
+            max_daughter_amount, // макс количество детей ген операторов
+            strain_operations_ratio // коэф колиечтсва действий штаммов
+        );
+
+        std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+
+        sum += start - end;
+    }
+    std::cout << "===================================\n";
+    std::cout << "Avg. time: " << std::to_string(sum.count() / N) << " sec.\n";
     return 0;
 }
