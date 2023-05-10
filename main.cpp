@@ -409,7 +409,7 @@ double virusAlgorithm(
 
     // Вывод количества итерация для тестирования
     iter_out.open("logs/iter_out.txt", std::ios::app);
-    iter_out << current_step << "\n";
+    iter_out << current_step - 1 << "\n";
     iter_out.close();
 
     // вывод только результатов в файл для тестирования
