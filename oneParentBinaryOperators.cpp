@@ -164,8 +164,7 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
     }
     sort(dividingPositions.begin(), dividingPositions.end());
     int numberAttempts = 0;
-    do
-    {
+    
         std::vector<std::vector<bool>> parentFragments(divisionCount + 1);
         for (int fragmentIndex = 0; fragmentIndex < parentFragments.size(); fragmentIndex++)
         {
@@ -193,7 +192,7 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
             parentFragments.resize(parentFragments.size() - 1);
         }
         numberAttempts++;
-    } while (invertedParent == parent || numberAttempts == 100);
+    
 
     return invertedParent;
 }

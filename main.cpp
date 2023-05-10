@@ -488,7 +488,7 @@ int main()
     // int max_daughter_amount = 100;
     // int strain_operations_ratio = 3;
 
-    int population_size = 300;
+    int population_size = 100;
     double elite_percentage = 0.4;
     double strain_percentage = 0.1;
     int individual_parameter_size = 15;
