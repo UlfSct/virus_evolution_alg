@@ -2,7 +2,7 @@
 
 std::vector<bool> translocation(std::vector<bool> parent)
 {
-    //std::cout << "translocation\n";
+    // std::cout << "translocation\n";
     srand(time(NULL));
     if (parent.size() == 0)
     {
@@ -38,7 +38,7 @@ std::vector<bool> translocation(std::vector<bool> parent)
 
 std::vector<bool> basicMutation(std::vector<bool> parent)
 {
-    //std::cout << "basicMutation\n";
+    // std::cout << "basicMutation\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -52,7 +52,7 @@ std::vector<bool> basicMutation(std::vector<bool> parent)
 
 std::vector<bool> basicInversion(std::vector<bool> parent)
 {
-    //std::cout << "basicInversion\n";
+    // std::cout << "basicInversion\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -68,7 +68,7 @@ std::vector<bool> basicInversion(std::vector<bool> parent)
 
 std::vector<bool> multipositionMutation(std::vector<bool> parent)
 {
-    //std::cout << "multipositionMutation\n";
+    // std::cout << "multipositionMutation\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -103,7 +103,7 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
 
 std::vector<bool> duplication(std::vector<bool> parent)
 {
-    //std::cout << "duplication\n";
+    // std::cout << "duplication\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -111,7 +111,8 @@ std::vector<bool> duplication(std::vector<bool> parent)
     }
     std::vector<bool> duplicatedParent;
     duplicatedParent = parent;
-    while (duplicatedParent == parent)
+    int numberAttempts = 0;
+    while (duplicatedParent == parent || numberAttempts == 100)
     {
         int copySize = 0;
         int copyStartPosition = rand() % duplicatedParent.size();
@@ -142,13 +143,14 @@ std::vector<bool> duplication(std::vector<bool> parent)
         {
             duplicatedParent.at(insertStartPosition + copyGenesIndex) = copyGenes.at(copyGenesIndex);
         }
+        numberAttempts++;
     }
     return duplicatedParent;
 }
 
 std::vector<bool> multipositionInversion(std::vector<bool> parent)
 {
-    //std::cout << "multipositionInversion\n";
+    // std::cout << "multipositionInversion\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -176,6 +178,7 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
         }
     }
     sort(dividingPositions.begin(), dividingPositions.end());
+    int numberAttempts = 0;
     do
     {
         std::vector<std::vector<bool>> parentFragments(divisionCount + 1);
@@ -200,21 +203,23 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
             parentFragments.at(fragmentIndex) = parentFragments.at(parentFragments.size() - 1);
             parentFragments.resize(parentFragments.size() - 1);
         }
-    } while (invertedParent == parent);
+        numberAttempts++;
+    } while (invertedParent == parent || numberAttempts == 100);
 
     return invertedParent;
 }
 
 std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const int max_daughter_amount)
 {
-    //std::cout << "selectiveMutation\n";
+    // std::cout << "selectiveMutation\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero";
         exit(1);
     }
     int mutationCount = 2 + rand() % max_daughter_amount;
-    if (mutationCount > 10) mutationCount = 10;
+    if (mutationCount > 10)
+        mutationCount = 10;
     std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, parent);
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
@@ -243,14 +248,15 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const
 
 std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, const int max_daughter_amount)
 {
-    //std::cout << "selectiveInversion\n";
+    // std::cout << "selectiveInversion\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero";
         exit(1);
     }
     int inversionCount = 2 + rand() % max_daughter_amount;
-    if (inversionCount > 10) inversionCount = 10;
+    if (inversionCount > 10)
+        inversionCount = 10;
     std::vector<bool> invertedIndividuals;
     invertedIndividuals = parent;
     std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
