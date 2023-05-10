@@ -43,7 +43,10 @@ const int MAX_STRAIN_AMOUNT = 100;
 const int MAX_PARENT_AMOUNT = 6;
 
 // Константа максимально количества дочерних особей
-const int MAX_DAUGHTER_AMOUNT = 100;
+const int MAX_DAUGHTER_AMOUNT = 50;
 
 // Константа кратности количества операций для штаммов
 const double STRAIN_OPERATIONS_RATIO = 3;
+
+// Константа идеального значения функции
+const double PERFECT_FUNCTION_VALUE = -959.6407;

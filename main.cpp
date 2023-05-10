@@ -1,25 +1,22 @@
 #include "helper.h"
 
-
 /**
  * Функция мутации вируса
- * 
+ *
  * @param data - мутирующая особь
  * @param population - ссылка на вектор популяции
  * @param new_viruses - вектор получившихся детей
  * @param empty_steps - текущее количество пустых шагов
  * @param max_empty_steps - максимально допустимое количество пустых шагов
  * @param max_daughter_amount - максимальное количество детей от одной мутации
-*/
-void mutateVirus
-(
+ */
+void mutateVirus(
     std::vector<bool> data,
     std::vector<Virus *> &population,
     std::vector<std::vector<bool>> &new_viruses,
-    int empty_steps, 
+    int empty_steps,
     const int max_empty_steps,
-    const int max_daughter_amount
-)
+    const int max_daughter_amount)
 {
     double indexForSelect = 1 + double(rand()) * double(pow(14.0, 1.0 + double(empty_steps) / double(max_empty_steps))) / RAND_MAX;
     int mutationIndex;
@@ -58,7 +55,7 @@ void mutateVirus
         new_viruses.push_back(greyToBytes(duplication(bytesToGrey(data))));
         break;
     case 7:
-        //daughterSpecies = selectiveMutation(bytesToGrey(data), max_daughter_amount);
+        daughterSpecies = selectiveMutation(bytesToGrey(data), max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
             new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
@@ -90,7 +87,7 @@ void mutateVirus
         }
         break;
     case 12:
-        //daughterSpecies = selectiveInversion(bytesToGrey(data), max_daughter_amount);
+        daughterSpecies = selectiveInversion(bytesToGrey(data), max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
             new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
@@ -113,12 +110,10 @@ void mutateVirus
     }
 }
 
-
 /**
  * Цикл алгоритма эволюции
-*/
-double virusAlgorithm
-(
+ */
+double virusAlgorithm(
     const int elite_group_size,
     const int population_size,
     const int individual_parameter_size,
@@ -134,8 +129,7 @@ double virusAlgorithm
     const int max_strain_amount,
     const int max_parent_amount,
     const int max_daughter_amount,
-    const double strain_operations_ratio
-)
+    const double strain_operations_ratio)
 {
     // Создаём популяцию
     std::vector<Virus *> population;
@@ -177,15 +171,19 @@ double virusAlgorithm
         tech_out << "====================================================================\n";
         tech_out << "Current step: " << current_step << "\n";
         tech_out << "Sort 1 " << population.size() << "\n";
+        tech_out.close();
         sortPopulationByFitness(population, finding_min, strain_amount);
 
         //  дублирование и мутация в штаммах
         tech_out.open("logs/tech_out.txt", std::ios::app);
         tech_out << "Strain " << population.size() << "\n";
+        tech_out << "Strain! " << strain_amount << "\n";
+
         tech_out.close();
 
         for (int i = 0; i < strain_amount; i++)
         {
+
             for (int j = 0; j < strain_operations_ratio; j++)
             {
                 population.push_back(new Virus(population[i]->getData(), parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
@@ -280,7 +278,8 @@ double virusAlgorithm
             std::string tmp_string = "x[" + std::to_string(i + 1) + "]";
             population_out << "|" << std::setw(19) << tmp_string;
         }
-        population_out << "|" << std::setw(19) << "R" << "|\n";
+        population_out << "|" << std::setw(19) << "R"
+                       << "|\n";
 
         for (int i = 0; i < (parameters_amount + 1) * 20 + 1; i++)
         {
@@ -296,7 +295,7 @@ double virusAlgorithm
                 population_out << "|" << std::setw(19) << std::to_string(value);
             }
 
-            population_out << "|" << std::setw(19) << population[i]->getFitness() << "|\n";
+            population_out << "|" << std::setw(19) << std::to_string(population[i]->getFitness()) << "|" << population[i]->isStrain() << "\n";
 
             for (int j = 0; j < (parameters_amount + 1) * 20 + 1; j++)
             {
@@ -305,12 +304,12 @@ double virusAlgorithm
             population_out << "\n";
         }
         population_out.close();
-        
+
         // Обновление оптимизированного значения
         tech_out.open("logs/tech_out.txt", std::ios::app);
         tech_out << "Finding opt. " << population.size() << "\n";
         tech_out.close();
-        
+
         bool value_changed = false;
         for (int i = 0; i < strain_amount + 1; i++)
         {
@@ -325,17 +324,18 @@ double virusAlgorithm
                 result_out << "====================================================================\n";
                 for (int k = 0; k < parameters_amount; k++)
                 {
-                    result_out << "x[" << k + 1 << "] = " <<
-                        population[i]->getRealParameterValue(k, individual_parameter_size, parameters_max_values[k], parameters_min_values[k])
-                        << "\n";
+                    result_out << "x[" << k + 1 << "] = " << population[i]->getRealParameterValue(k, individual_parameter_size, parameters_max_values[k], parameters_min_values[k])
+                               << "\n";
                 }
                 result_out << "R = " << std::to_string(optimized_value) << "\n";
                 result_out.close();
             }
         }
 
-        if (value_changed) empty_steps = 0;
-        else empty_steps++;
+        if (value_changed)
+            empty_steps = 0;
+        else
+            empty_steps++;
 
         // обновление итераций и статуса виурсов
         tech_out.open("logs/tech_out.txt", std::ios::app);
@@ -347,7 +347,7 @@ double virusAlgorithm
         for (int i = current_strain_amount; i < current_strain_amount + elite_group_size; i++)
         {
             population[i]->increaseIterationsInEliteGroup();
-            
+
             if (population[i]->getIterationsInElite() >= iterations_for_strain)
             {
                 if (strain_amount < max_strain_amount)
@@ -356,8 +356,7 @@ double virusAlgorithm
 
                     for (int j = 0; j < current_strain_amount; j++)
                     {
-                        if (differenceInHammingDistance(population[i]->getData(), population[j]->getData()) 
-                            < strain_min_hamming_difference)
+                        if (differenceInHammingDistance(population[i]->getData(), population[j]->getData()) < strain_min_hamming_difference)
                         {
                             is_worthy = false;
                             break;
@@ -427,7 +426,7 @@ double virusAlgorithm
 int main()
 {
     srand(time(0));
-    
+
     // вывод количества итераций в файл
     std::ofstream iter_out;
     iter_out.open("logs/iter_out.txt");
@@ -440,7 +439,7 @@ int main()
 
     //  ДЕФОЛТНЫЕ ЗНАЧЕНИЯ
     //
-    // int population_size = 300; 
+    // int population_size = 300;
     // double elite_percentage = 0.4;
     // double strain_percentage = 0.1;
     // int individual_parameter_size = 15;
@@ -453,12 +452,12 @@ int main()
     // int max_daughter_amount = 100;
     // int strain_operations_ratio = 3;
 
-    int population_size = 300; 
+    int population_size = 10;
     double elite_percentage = 0.4;
     double strain_percentage = 0.1;
     int individual_parameter_size = 15;
     int strain_min_hamming_difference = 3;
-    int max_steps = 300;
+    int max_steps = 10;
     double empty_steps_percentage = 0.2;
     int iterations_in_strain = 10;
     int iterations_for_strain = 10;
@@ -466,37 +465,67 @@ int main()
     int max_daughter_amount = 100;
     int strain_operations_ratio = 3;
 
-
-    const int N = 10;
+    const int N = 100;
     std::chrono::duration<double> sum = std::chrono::seconds(0);
     for (int i = 0; i < N; i++)
     {
         std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
         virusAlgorithm(
-            population_size * elite_percentage, // размер элитки
-            population_size, // размер полюции
-            individual_parameter_size, // размер булевого вектора одного параметра (влияет на точность значений)
-            strain_min_hamming_difference, // разница хэмминга для штамма
-            PARAMETERS_AMOUNT, // НЕ ДЕЛАТЬ ЕБАТЬ
-            PARAMETERS_MIN_VALUES, // НЕ ДЕЛАТЬ ЕБАТЬ
-            PARAMETERS_MAX_VALUES, // НЕ ДЕЛАТЬ ЕБАТЬ
-            FINDING_MIN, // НЕ ДЕЛАТЬ ЕБАТЬ
-            max_steps * empty_steps_percentage, // количество пустых шагов максимальное
-            max_steps, // макс количество шагов
-            iterations_for_strain, // итераций чтобы стать штаммом
-            iterations_in_strain, // итераций быть штаммом
+            population_size * elite_percentage,  // размер элитки
+            population_size,                     // размер полюции
+            individual_parameter_size,           // размер булевого вектора одного параметра (влияет на точность значений)
+            strain_min_hamming_difference,       // разница хэмминга для штамма
+            PARAMETERS_AMOUNT,                   // НЕ ДЕЛАТЬ ЕБАТЬ
+            PARAMETERS_MIN_VALUES,               // НЕ ДЕЛАТЬ ЕБАТЬ
+            PARAMETERS_MAX_VALUES,               // НЕ ДЕЛАТЬ ЕБАТЬ
+            FINDING_MIN,                         // НЕ ДЕЛАТЬ ЕБАТЬ
+            max_steps * empty_steps_percentage,  // количество пустых шагов максимальное
+            max_steps,                           // макс количество шагов
+            iterations_for_strain,               // итераций чтобы стать штаммом
+            iterations_in_strain,                // итераций быть штаммом
             population_size * strain_percentage, // размер группы штаммов
-            max_parent_amount, // макс количество родителей для ген операторов
-            max_daughter_amount, // макс количество детей ген операторов
-            strain_operations_ratio // коэф колиечтсва действий штаммов
+            max_parent_amount,                   // макс количество родителей для ген операторов
+            max_daughter_amount,                 // макс количество детей ген операторов
+            strain_operations_ratio              // коэф колиечтсва действий штаммов
         );
 
         std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
-        sum += start - end;
+        sum -= start - end;
+    }
+
+    std::ifstream iter_in, value_in;
+    iter_in.open("logs/iter_out.txt");
+    value_in.open("logs/optimized_out.txt");
+    int iter_sum = 0;
+    int conv_count = 0;
+    for (int i = 0; i < N; i++)
+    {
+        int tmp_iter;
+        double tmp_value;
+        iter_in >> tmp_iter;
+        value_in >> tmp_value;
+        if (tmp_value >= PERFECT_FUNCTION_VALUE - 0.5 && tmp_value <= PERFECT_FUNCTION_VALUE + 0.5)
+        {
+            iter_sum += tmp_iter;
+            conv_count++;
+        }
     }
     std::cout << "===================================\n";
     std::cout << "Avg. time: " << std::to_string(sum.count() / N) << " sec.\n";
+    if (conv_count > 0)
+    {
+        std::cout << "Avg. iter.: " << std::to_string(iter_sum / conv_count) << "\n";
+        std::cout << "Conv. count " << std::to_string(conv_count) << "\n";
+        std::cout << "Conv. perc.: " << std::to_string(conv_count * 100 / N) << "\n";
+    }
+    else
+    {
+        std::cout << "Avg. iter.: " << "-----" << "\n";
+        std::cout << "Conv. count " << std::to_string(conv_count) << "\n";
+        std::cout << "Conv. perc.: " << 0 << "\n";
+    }
+
     return 0;
 }
