@@ -1,13 +1,13 @@
 #include "includes.h"
 
 // размер элитки
-const int ELITE_GROUP_SIZE = 1;
+const int ELITE_GROUP_SIZE = 400;
 
 // размер популяции
-const int POPULATION_SIZE = 10;
+const int POPULATION_SIZE = 1000;
 
 // размер параметра
-const int INDIVIDUAL_PARAMETER_SIZE = 30;
+const int INDIVIDUAL_PARAMETER_SIZE = 15;
 
 // минимальная разница в расстоянии хэмминга между штаммами
 const int STRAIN_MIN_HAMMING_DIFFERENCE = 3;
@@ -16,7 +16,7 @@ const int STRAIN_MIN_HAMMING_DIFFERENCE = 3;
 const int PARAMETERS_AMOUNT = 2;
 
 // минимальные значения параметров
-const double PARAMETERS_MIN_VALUES[PARAMETERS_AMOUNT] = {0.0, 0.0};
+const double PARAMETERS_MIN_VALUES[PARAMETERS_AMOUNT] = {-512.0, -512.0};
 
 // минимальные значения параметров
 const double PARAMETERS_MAX_VALUES[PARAMETERS_AMOUNT] = {512.0, 512.0};
@@ -25,28 +25,25 @@ const double PARAMETERS_MAX_VALUES[PARAMETERS_AMOUNT] = {512.0, 512.0};
 const bool FINDING_MIN = true;
 
 // Константа максимального количества пустых шагов
-const int MAX_EMPTY_STEPS = 20000;
+const int MAX_EMPTY_STEPS = 40;
 
 // Константа максимального количества шагов
-const int MAX_STEPS = 1000;
+const int MAX_STEPS = 100;
 
 // Количество итераций, чтобы вирус из элитки стал штаммом
-const int ITERATIONS_FOR_STRAIN = 30;
+const int ITERATIONS_FOR_STRAIN = 10;
 
 // Количество итераций, чтобы вирус из штамма стал никем
-const int ITERATIONS_IN_STRAIN = 30;
+const int ITERATIONS_IN_STRAIN = 10;
 
 // Константа максимального количества штаммов
-const int MAX_STRAIN_AMOUNT = 10;
+const int MAX_STRAIN_AMOUNT = 100;
 
 // Константа максимального количества родительских особей
 const int MAX_PARENT_AMOUNT = 6;
 
-// Константа радиуса поиска вокруг штамма
-const int STRAIN_DUPLICATION_RADIUS = 2;
-
-// Константа шаг поиска вокруг штамма
-const double STEP_IN_STRAIN_DUPLICATION_RADIUS = 0.1;
-
 // Константа максимально количества дочерних особей
 const int MAX_DAUGHTER_AMOUNT = 100;
+
+// Константа кратности количества операций для штаммов
+const double STRAIN_OPERATIONS_RATIO = 3;

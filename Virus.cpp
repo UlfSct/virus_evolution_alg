@@ -130,7 +130,9 @@ void Virus::printResults(
 {
     for (int i = 1; i <= parameters_amount; i++)
     {
-        std::cout << "Optimized x" << i << " = " << getRealParameterValue(i - 1, individual_parameter_size, parameters_max_values[i - 1], parameters_min_values[i - 1]) << "\n";
+        std::cout << "Optimized x[" << i << "] = " 
+        << getRealParameterValue(i - 1, individual_parameter_size, parameters_max_values[i - 1], parameters_min_values[i - 1]) 
+        << " +- " << std::to_string((parameters_max_values[i - 1] - parameters_min_values[i - 1]) / (std::pow(2, individual_parameter_size) - 1)) << "\n";
     }
     std::cout << "Function value = " << fitness << std::endl;
 }

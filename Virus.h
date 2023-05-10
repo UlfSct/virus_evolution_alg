@@ -23,11 +23,6 @@ private:
         const double parameters_max_values[PARAMETERS_AMOUNT]
     );
 
-    /**
-     * Вспомогательная функция взятия реального значения k-го параметра
-    */
-    double getRealParameterValue(int k, const int individual_parameter_size, const double max_value, const double min_value);
-
 public:
     /**
      * Пустой конструктор класса Вирус
@@ -105,4 +100,9 @@ public:
         const double parameters_min_values[PARAMETERS_AMOUNT],
         const double parameters_max_values[PARAMETERS_AMOUNT]
     );
+
+    /**
+     * Вспомогательная функция взятия реального значения k-го параметра
+    */
+    double getRealParameterValue(int k, const int individual_parameter_size, const double max_value, const double min_value);
 };

@@ -2,6 +2,7 @@
 
 std::vector<bool> translocation(std::vector<bool> parent)
 {
+    //std::cout << "translocation\n";
     srand(time(NULL));
     if (parent.size() == 0)
     {
@@ -37,6 +38,7 @@ std::vector<bool> translocation(std::vector<bool> parent)
 
 std::vector<bool> basicMutation(std::vector<bool> parent)
 {
+    //std::cout << "basicMutation\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -50,6 +52,7 @@ std::vector<bool> basicMutation(std::vector<bool> parent)
 
 std::vector<bool> basicInversion(std::vector<bool> parent)
 {
+    //std::cout << "basicInversion\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -65,6 +68,7 @@ std::vector<bool> basicInversion(std::vector<bool> parent)
 
 std::vector<bool> multipositionMutation(std::vector<bool> parent)
 {
+    //std::cout << "multipositionMutation\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -99,6 +103,7 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
 
 std::vector<bool> duplication(std::vector<bool> parent)
 {
+    //std::cout << "duplication\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -143,6 +148,7 @@ std::vector<bool> duplication(std::vector<bool> parent)
 
 std::vector<bool> multipositionInversion(std::vector<bool> parent)
 {
+    //std::cout << "multipositionInversion\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
@@ -201,6 +207,7 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
 
 std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const int max_daughter_amount)
 {
+    //std::cout << "selectiveMutation\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero";
@@ -235,6 +242,7 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const
 
 std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, const int max_daughter_amount)
 {
+    //std::cout << "selectiveInversion\n";
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero";
