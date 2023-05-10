@@ -172,7 +172,6 @@ double virusAlgorithm
 
     while (empty_steps < max_empty_steps && current_step <= max_steps)
     {
-        std::cout << strain_amount << "\n";
         //  сортировка
         tech_out.open("logs/tech_out.txt", std::ios::app);
         tech_out << "====================================================================\n";
