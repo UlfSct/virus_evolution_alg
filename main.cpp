@@ -30,21 +30,34 @@ void mutateVirus(
     int parentAmount = (int)(2 + (MAX_PARENT_AMOUNT - 2) * double(empty_steps) / double(max_empty_steps));
     std::vector<std::vector<bool>> parents;
     std::vector<std::vector<bool>> daughterSpecies;
+
+    std::ofstream operations_out;
+    operations_out.open("logs/operations_out.txt", std::ios::app);
     switch (mutationIndex)
     {
     case 1:
+        operations_out << "basicMutation\n";
+        operations_out.close();
         new_viruses.push_back(greyToBytes(basicMutation(bytesToGrey(data))));
         break;
     case 2:
+        operations_out << "translocation\n";
+        operations_out.close();
         new_viruses.push_back(greyToBytes(translocation(bytesToGrey(data))));
         break;
     case 3:
+        operations_out << "multipositionMutation\n";
+        operations_out.close();
         new_viruses.push_back(greyToBytes(multipositionMutation(bytesToGrey(data))));
         break;
     case 4:
+        operations_out << "basicInversion\n";
+        operations_out.close();
         new_viruses.push_back(greyToBytes(basicInversion(bytesToGrey(data))));
         break;
     case 5:
+        operations_out << "basicCrossover\n";
+        operations_out.close();
         daughterSpecies = basicCrossover(bytesToGrey(data), bytesToGrey(population[0]->getData()));
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
@@ -52,9 +65,13 @@ void mutateVirus(
         }
         break;
     case 6:
+        operations_out << "duplication\n";
+        operations_out.close();
         new_viruses.push_back(greyToBytes(duplication(bytesToGrey(data))));
         break;
     case 7:
+        operations_out << "selectiveMutation\n";
+        operations_out.close();
         daughterSpecies = selectiveMutation(bytesToGrey(data), max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
@@ -62,9 +79,13 @@ void mutateVirus(
         }
         break;
     case 8:
+        operations_out << "multipositionInversion\n";
+        operations_out.close();
         new_viruses.push_back(greyToBytes(multipositionInversion(bytesToGrey(data))));
         break;
     case 9:
+        operations_out << "segregation\n";
+        operations_out.close();
         parents.push_back(bytesToGrey(data));
         for (int indexParent = 0; indexParent < parentAmount - 1; indexParent++)
         {
@@ -73,6 +94,8 @@ void mutateVirus(
         new_viruses.push_back(greyToBytes(segregation(parents)));
         break;
     case 10:
+        operations_out << "homogeneousCrossover\n";
+        operations_out.close();
         daughterSpecies = homogeneousCrossover(bytesToGrey(data), bytesToGrey(population[0]->getData()));
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
@@ -80,6 +103,8 @@ void mutateVirus(
         }
         break;
     case 11:
+        operations_out << "multipositionCrossover\n";
+        operations_out.close();
         daughterSpecies = multipositionCrossover(bytesToGrey(data), bytesToGrey(population[0]->getData()));
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
@@ -87,6 +112,8 @@ void mutateVirus(
         }
         break;
     case 12:
+        operations_out << "selectiveInversion\n";
+        operations_out.close();
         daughterSpecies = selectiveInversion(bytesToGrey(data), max_daughter_amount);
         for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
         {
@@ -94,6 +121,8 @@ void mutateVirus(
         }
         break;
     case 13:
+        operations_out << "multichromosomalCrossover\n";
+        operations_out.close();
         parents.push_back(bytesToGrey(data));
         for (int indexParent = 0; indexParent < parentAmount - 1; indexParent++)
         {
@@ -106,6 +135,8 @@ void mutateVirus(
         }
         break;
     default:
+        operations_out << "default\n";
+        operations_out.close();
         break;
     }
 }
@@ -157,6 +188,11 @@ double virusAlgorithm(
     std::ofstream population_out;
     population_out.open("logs/population_out.txt");
     population_out.close();
+
+    // файл вывода операций генетических операторов
+    std::ofstream operations_out;
+    operations_out.open("logs/operations_out.txt");
+    operations_out.close();
 
     // вывод количества итераций в файл
     std::ofstream iter_out;
@@ -452,7 +488,7 @@ int main()
     // int max_daughter_amount = 100;
     // int strain_operations_ratio = 3;
 
-    int population_size = 300;
+    int population_size = 100;
     double elite_percentage = 0.4;
     double strain_percentage = 0.1;
     int individual_parameter_size = 15;
