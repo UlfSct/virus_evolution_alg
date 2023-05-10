@@ -96,13 +96,13 @@ void sortPopulationByFitness(std::vector<Virus *> &population, bool finding_min,
 {
 
     int population_size = population.size();
-
-    /*
+    
     for (int i = 0; i < population_size; i++)
     {
         int min_i = 0;
         if (population[i]->isStrain())
         {
+            if(i == min_i) continue;
             std::swap(population[i], population[min_i]);
             min_i++;
         }
@@ -114,9 +114,9 @@ void sortPopulationByFitness(std::vector<Virus *> &population, bool finding_min,
     }
 
     quickSort(population, strain_amount, population_size - 1, finding_min);
-    */
+    
 
-    for (int i = 0; i < population_size - 1; i++)
+    /*for (int i = 0; i < population_size - 1; i++)
     {
         if (population[i]->isStrain()) continue;
         double opt_fitness = population[i]->getFitness();
@@ -146,7 +146,7 @@ void sortPopulationByFitness(std::vector<Virus *> &population, bool finding_min,
         {
             std::swap(population[i], population[opt_index]);
         }
-    }
+    }*/
 }
 
 
