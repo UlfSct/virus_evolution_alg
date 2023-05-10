@@ -50,3 +50,6 @@ const double STRAIN_OPERATIONS_RATIO = 3;
 
 // Константа идеального значения функции
 const double PERFECT_FUNCTION_VALUE = -959.6407;
+
+// Необходимая точность значения
+const double E = 0.5;
