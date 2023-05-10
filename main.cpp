@@ -184,12 +184,11 @@ double virusAlgorithm
         tech_out << "Strain " << population.size() << "\n";
         tech_out.close();
 
-        for (int i = strain_amount; i < strain_amount + elite_group_size; i++)
+        for (int i = 0; i < strain_amount; i++)
         {
             for (int j = 0; j < strain_operations_ratio; j++)
             {
                 population.push_back(new Virus(population[i]->getData(), parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
-                population[i]->increaseIterationsInEliteGroup();
                 std::vector<std::vector<bool>> new_viruses;
                 mutateVirus(population[i]->getData(), population, new_viruses, empty_steps, max_empty_steps, max_daughter_amount);
                 for (auto new_virus : new_viruses)
@@ -207,7 +206,6 @@ double virusAlgorithm
         for (int i = strain_amount; i < strain_amount + elite_group_size; i++)
         {
             population.push_back(new Virus(population[i]->getData(), parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
-            population[i]->increaseIterationsInEliteGroup();
             std::vector<std::vector<bool>> new_viruses;
             mutateVirus(population[i]->getData(), population, new_viruses, empty_steps, max_empty_steps, max_daughter_amount);
             for (auto new_virus : new_viruses)
@@ -349,8 +347,8 @@ double virusAlgorithm
         for (int i = current_strain_amount; i < current_strain_amount + elite_group_size; i++)
         {
             population[i]->increaseIterationsInEliteGroup();
-
-            if (population[i]->getIterationsInElite() == iterations_for_strain)
+            
+            if (population[i]->getIterationsInElite() >= iterations_for_strain)
             {
                 if (strain_amount < max_strain_amount)
                 {
