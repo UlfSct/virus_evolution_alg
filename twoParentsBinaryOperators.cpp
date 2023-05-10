@@ -2,6 +2,7 @@
 
 std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent)
 {
+    //std::cout << "basicCrossover\n";
     if ((firstParent.size() == 0) || (secondParent.size() == 0))
     {
         if ((firstParent.size() == 0) && (secondParent.size() == 0))
@@ -44,6 +45,7 @@ std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std
 
 std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent)
 {
+    //std::cout << "multipositionCrossover\n";
     if ((firstParent.size() == 0) || (secondParent.size() == 0))
     {
         if ((firstParent.size() == 0) && (secondParent.size() == 0))
@@ -113,6 +115,7 @@ std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstPar
 
 std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent)
 {
+    //std::cout << "homogeneousCrossover\n";
     if ((firstParent.size() == 0) || (secondParent.size() == 0))
     {
         if ((firstParent.size() == 0) && (secondParent.size() == 0))
