@@ -452,12 +452,12 @@ int main()
     // int max_daughter_amount = 100;
     // int strain_operations_ratio = 3;
 
-    int population_size = 10;
+    int population_size = 300;
     double elite_percentage = 0.4;
     double strain_percentage = 0.1;
     int individual_parameter_size = 15;
     int strain_min_hamming_difference = 3;
-    int max_steps = 10;
+    int max_steps = 300;
     double empty_steps_percentage = 0.2;
     int iterations_in_strain = 10;
     int iterations_for_strain = 10;
