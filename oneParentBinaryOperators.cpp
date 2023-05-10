@@ -111,39 +111,24 @@ std::vector<bool> duplication(std::vector<bool> parent)
     }
     std::vector<bool> duplicatedParent;
     duplicatedParent = parent;
-    int numberAttempts = 0;
-    while (duplicatedParent == parent || numberAttempts == 100)
+    int copySize = 0;
+    int copyStartPosition = rand() % duplicatedParent.size();
+    copySize = 1 + rand() % (duplicatedParent.size() - 1);
+    int insertStartPosition = copyStartPosition;
+    while (copyStartPosition == insertStartPosition)
     {
-        int copySize = 0;
-        int copyStartPosition = rand() % duplicatedParent.size();
-        if (copyStartPosition == duplicatedParent.size() - 1)
-        {
-            copySize = 1;
-        }
-        else
-        {
-            while (copySize < 1)
-            {
-                copySize = rand() % duplicatedParent.size() - copyStartPosition;
-            }
-        }
-        int insertStartPosition = copyStartPosition;
-        while (copyStartPosition == insertStartPosition)
-        {
-            insertStartPosition = rand() % duplicatedParent.size();
-        }
-        while (insertStartPosition + copySize > duplicatedParent.size())
-        {
-            copySize--;
-        }
-        std::vector<bool> copyGenes(copySize);
-        std::copy(duplicatedParent.begin() + copyStartPosition, duplicatedParent.begin() + copyStartPosition + copySize, copyGenes.begin());
+        insertStartPosition = rand() % duplicatedParent.size();
+    }
+    while (insertStartPosition + copySize > duplicatedParent.size())
+    {
+        copySize--;
+    }
+    std::vector<bool> copyGenes(copySize);
+    std::copy(duplicatedParent.begin() + copyStartPosition, duplicatedParent.begin() + copyStartPosition + copySize, copyGenes.begin());
 
-        for (int copyGenesIndex = 0; copyGenesIndex < copyGenes.size(); copyGenesIndex++)
-        {
-            duplicatedParent.at(insertStartPosition + copyGenesIndex) = copyGenes.at(copyGenesIndex);
-        }
-        numberAttempts++;
+    for (int copyGenesIndex = 0; copyGenesIndex < copyGenes.size(); copyGenesIndex++)
+    {
+        duplicatedParent.at(insertStartPosition + copyGenesIndex) = copyGenes.at(copyGenesIndex);
     }
     return duplicatedParent;
 }
@@ -182,6 +167,10 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
     do
     {
         std::vector<std::vector<bool>> parentFragments(divisionCount + 1);
+        for (int fragmentIndex = 0; fragmentIndex < parentFragments.size(); fragmentIndex++)
+        {
+            parentFragments.at(fragmentIndex).clear();
+        }
         invertedParent.clear();
         int geneIndex = 0;
         for (int fragmentIndex = 0; fragmentIndex < divisionCount; fragmentIndex++)

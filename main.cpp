@@ -488,7 +488,7 @@ int main()
     // int max_daughter_amount = 100;
     // int strain_operations_ratio = 3;
 
-    int population_size = 100;
+    int population_size = 300;
     double elite_percentage = 0.4;
     double strain_percentage = 0.1;
     int individual_parameter_size = 15;
@@ -537,7 +537,7 @@ int main()
     std::ifstream iter_in, value_in;
     iter_in.open("logs/iter_out.txt");
     value_in.open("logs/optimized_out.txt");
-    int iter_sum = 0;
+    double iter_sum = 0;
     int conv_count = 0;
     for (int i = 0; i < N; i++)
     {
