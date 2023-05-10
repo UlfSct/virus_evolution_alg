@@ -471,7 +471,7 @@ int main()
     {
         std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-        virusAlgorithm(
+        double result = virusAlgorithm(
             population_size * elite_percentage,  // размер элитки
             population_size,                     // размер полюции
             individual_parameter_size,           // размер булевого вектора одного параметра (влияет на точность значений)
@@ -492,7 +492,10 @@ int main()
 
         std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
-        sum -= start - end;
+        if (result >= PERFECT_FUNCTION_VALUE - E && result <= PERFECT_FUNCTION_VALUE + E)
+        {
+            sum += end - start;
+        }
     }
 
     std::ifstream iter_in, value_in;
@@ -506,24 +509,23 @@ int main()
         double tmp_value;
         iter_in >> tmp_iter;
         value_in >> tmp_value;
-        if (tmp_value >= PERFECT_FUNCTION_VALUE - 0.5 && tmp_value <= PERFECT_FUNCTION_VALUE + 0.5)
+        if (tmp_value >= PERFECT_FUNCTION_VALUE - E && tmp_value <= PERFECT_FUNCTION_VALUE + E)
         {
             iter_sum += tmp_iter;
             conv_count++;
         }
     }
     std::cout << "===================================\n";
-    std::cout << "Avg. time: " << std::to_string(sum.count() / N) << " sec.\n";
     if (conv_count > 0)
     {
+        std::cout << "Avg. time: " << std::to_string(sum.count() / conv_count) << " sec.\n";
         std::cout << "Avg. iter.: " << std::to_string(iter_sum / conv_count) << "\n";
-        std::cout << "Conv. count " << std::to_string(conv_count) << "\n";
         std::cout << "Conv. perc.: " << std::to_string(conv_count * 100 / N) << "\n";
     }
     else
     {
-        std::cout << "Avg. iter.: " << "-----" << "\n";
-        std::cout << "Conv. count " << std::to_string(conv_count) << "\n";
+        std::cout << "Avg. time: " << "--------------" << " sec.\n";
+        std::cout << "Avg. iter.: " << "--------------" << "\n";
         std::cout << "Conv. perc.: " << 0 << "\n";
     }
 
