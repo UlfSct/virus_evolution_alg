@@ -214,7 +214,7 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const
         exit(1);
     }
     int mutationCount = 2 + rand() % max_daughter_amount;
-    if (mutationCount > 25) mutationCount = 25;
+    if (mutationCount > 10) mutationCount = 10;
     std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, parent);
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
@@ -250,7 +250,7 @@ std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, cons
         exit(1);
     }
     int inversionCount = 2 + rand() % max_daughter_amount;
-    if (inversionCount > 25) inversionCount = 25;
+    if (inversionCount > 10) inversionCount = 10;
     std::vector<bool> invertedIndividuals;
     invertedIndividuals = parent;
     std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
