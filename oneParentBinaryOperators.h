@@ -58,18 +58,16 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent);
  * Функция выполняет селективную мутацию
  *
  * @param parent -родительская особь
- * @param max_daughter_amount -максимальное количетсво дочерних особей
  *
  * @return Возвращает множество вариантов мутировших особей
  */
-std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const int max_daughter_amount);
+std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent);
 
 /**
  * Функция выполняет селективную инверсию
  *
  * @param parent -родительская особь
- * @param max_daughter_amount -максимальное количетсво дочерних особей
  *
  * @return Возвращает множество вариантов инверсированных особей
  */
-std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, const int max_daughter_amount);
+std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent);

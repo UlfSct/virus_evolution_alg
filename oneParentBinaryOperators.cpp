@@ -33,6 +33,8 @@ std::vector<bool> translocation(std::vector<bool> parent)
         parent[geneParentPosition] = tmpParent[geneTmpParentPosition];
     }
 
+    tmpParent.clear();
+
     return parent;
 }
 
@@ -98,6 +100,8 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
         }
     }
 
+    mutatedGenes.clear();
+
     return parent;
 }
 
@@ -130,6 +134,9 @@ std::vector<bool> duplication(std::vector<bool> parent)
     {
         duplicatedParent.at(insertStartPosition + copyGenesIndex) = copyGenes.at(copyGenesIndex);
     }
+
+    copyGenes.clear();
+
     return duplicatedParent;
 }
 
@@ -164,40 +171,37 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
     }
     sort(dividingPositions.begin(), dividingPositions.end());
     int numberAttempts = 0;
-    
-        std::vector<std::vector<bool>> parentFragments(divisionCount + 1);
-        for (int fragmentIndex = 0; fragmentIndex < parentFragments.size(); fragmentIndex++)
+
+    std::vector<std::vector<bool>> parentFragments(divisionCount + 1);
+    int geneIndex = 0;
+    for (int fragmentIndex = 0; fragmentIndex < divisionCount; fragmentIndex++)
+    {
+        for (geneIndex; geneIndex < dividingPositions.at(fragmentIndex); geneIndex++)
         {
-            parentFragments.at(fragmentIndex).clear();
+            parentFragments.at(fragmentIndex).push_back(parent.at(geneIndex));
         }
-        invertedParent.clear();
-        int geneIndex = 0;
-        for (int fragmentIndex = 0; fragmentIndex < divisionCount; fragmentIndex++)
-        {
-            for (geneIndex; geneIndex < dividingPositions.at(fragmentIndex); geneIndex++)
-            {
-                parentFragments.at(fragmentIndex).push_back(parent.at(geneIndex));
-            }
-        }
-        for (geneIndex; geneIndex < parent.size(); geneIndex++)
-        {
-            parentFragments.at(parentFragments.size() - 1).push_back(parent.at(geneIndex));
-        }
-        while (invertedParent.size() != parent.size())
-        {
-            int fragmentIndex = rand() % parentFragments.size();
-            invertedParent.insert(invertedParent.end(), parentFragments.at(fragmentIndex).begin(), parentFragments.at(fragmentIndex).end());
-            parentFragments.at(fragmentIndex).clear();
-            parentFragments.at(fragmentIndex) = parentFragments.at(parentFragments.size() - 1);
-            parentFragments.resize(parentFragments.size() - 1);
-        }
-        numberAttempts++;
-    
+    }
+    for (geneIndex; geneIndex < parent.size(); geneIndex++)
+    {
+        parentFragments.at(parentFragments.size() - 1).push_back(parent.at(geneIndex));
+    }
+    while (invertedParent.size() != parent.size())
+    {
+        int fragmentIndex = rand() % parentFragments.size();
+        invertedParent.insert(invertedParent.end(), parentFragments.at(fragmentIndex).begin(), parentFragments.at(fragmentIndex).end());
+        parentFragments.at(fragmentIndex).clear();
+        parentFragments.at(fragmentIndex) = parentFragments.at(parentFragments.size() - 1);
+        parentFragments.resize(parentFragments.size() - 1);
+    }
+    numberAttempts++;
+
+    dividingPositions.clear();
+    parentFragments.clear();
 
     return invertedParent;
 }
 
-std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const int max_daughter_amount)
+std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
 {
     // std::cout << "selectiveMutation\n";
     if (parent.size() == 0)
@@ -205,9 +209,7 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int mutationCount = 2 + rand() % max_daughter_amount;
-    if (mutationCount > 10)
-        mutationCount = 10;
+    int mutationCount = 2 + rand() % 10;
     std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, parent);
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
@@ -231,10 +233,12 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent, const
         }
     }
 
+    mutatedGenes.clear();
+
     return variantsMutatedIndividuals;
 }
 
-std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, const int max_daughter_amount)
+std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
 {
     // std::cout << "selectiveInversion\n";
     if (parent.size() == 0)
@@ -242,9 +246,7 @@ std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, cons
         std::cout << "The size of the vector is zero";
         exit(1);
     }
-    int inversionCount = 2 + rand() % max_daughter_amount;
-    if (inversionCount > 10)
-        inversionCount = 10;
+    int inversionCount = 2 + rand() % 10;
     std::vector<bool> invertedIndividuals;
     invertedIndividuals = parent;
     std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
@@ -270,6 +272,9 @@ std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent, cons
             inversionIndex++;
         }
     }
+
+    invertedIndividuals.clear();
+    usedPosition.clear();
 
     return variantsInvertedIndividuals;
 }

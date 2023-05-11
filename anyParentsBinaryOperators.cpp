@@ -139,5 +139,8 @@ std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector
         }
     }
 
+    daughterComposition.clear();
+    dividingPositions.clear();
+
     return daughter;
 }

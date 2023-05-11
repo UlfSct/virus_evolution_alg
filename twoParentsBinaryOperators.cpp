@@ -110,6 +110,8 @@ std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstPar
         }
     }
 
+    dividingPositions.clear();
+
     return variantsDaughterSpecies;
 }
 
@@ -158,6 +160,8 @@ std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParen
             variantsDaughterSpecies.at(1).push_back(firstParent.at(geneIndex));
         }
     }
+
+    randomNumbers.clear();
 
     return variantsDaughterSpecies;
 }
