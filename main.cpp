@@ -29,122 +29,72 @@ void mutateVirus(
     }
     int parentAmount = (int)(2 + (MAX_PARENT_AMOUNT - 2) * double(empty_steps) / double(max_empty_steps));
     std::vector<std::vector<bool>> parents;
-    std::vector<std::vector<bool>> daughterSpecies;
-
-    std::ofstream operations_out;
-    operations_out.open("logs/operations_out.txt", std::ios::app);
+    std::vector<bool> tmpSecondParent = population[0]->getData();
     switch (mutationIndex)
     {
     case 1:
-        operations_out << "basicMutation\n";
-        operations_out.close();
-        new_viruses.push_back(greyToBytes(basicMutation(bytesToGrey(data))));
+        basicMutation(data, new_viruses);
         break;
     case 2:
-        operations_out << "translocation\n";
-        operations_out.close();
-        new_viruses.push_back(greyToBytes(translocation(bytesToGrey(data))));
+        translocation(data, new_viruses);
         break;
     case 3:
-        operations_out << "multipositionMutation\n";
-        operations_out.close();
-        new_viruses.push_back(greyToBytes(multipositionMutation(bytesToGrey(data))));
+        multipositionMutation(data, new_viruses);
         break;
     case 4:
-        operations_out << "basicInversion\n";
-        operations_out.close();
-        new_viruses.push_back(greyToBytes(basicInversion(bytesToGrey(data))));
+        basicInversion(data, new_viruses);
         break;
     case 5:
-        operations_out << "basicCrossover\n";
-        operations_out.close();
-        daughterSpecies = basicCrossover(bytesToGrey(data), bytesToGrey(population[0]->getData()));
-        for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
-        {
-            new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
-        }
+        basicCrossover(data, tmpSecondParent, new_viruses);
         break;
     case 6:
-        operations_out << "duplication\n";
-        operations_out.close();
-        new_viruses.push_back(greyToBytes(duplication(bytesToGrey(data))));
+        duplication(data, new_viruses);
         break;
     case 7:
-        operations_out << "selectiveMutation\n";
-        operations_out.close();
-        daughterSpecies = selectiveMutation(bytesToGrey(data), max_daughter_amount);
-        for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
-        {
-            new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
-        }
+        selectiveMutation(data, new_viruses);
         break;
     case 8:
-        operations_out << "multipositionInversion\n";
-        operations_out.close();
-        new_viruses.push_back(greyToBytes(multipositionInversion(bytesToGrey(data))));
+        multipositionInversion(data, new_viruses);
         break;
     case 9:
-        operations_out << "segregation\n";
-        operations_out.close();
-        parents.push_back(bytesToGrey(data));
+        parents.push_back(data);
         for (int indexParent = 0; indexParent < parentAmount - 1; indexParent++)
         {
-            parents.push_back(bytesToGrey(population[indexParent]->getData()));
+            parents.push_back(population[indexParent]->getData());
         }
-        new_viruses.push_back(greyToBytes(segregation(parents)));
+        segregation(parents, new_viruses);
         break;
     case 10:
-        operations_out << "homogeneousCrossover\n";
-        operations_out.close();
-        daughterSpecies = homogeneousCrossover(bytesToGrey(data), bytesToGrey(population[0]->getData()));
-        for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
-        {
-            new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
-        }
+        homogeneousCrossover(data, tmpSecondParent, new_viruses);
         break;
     case 11:
-        operations_out << "multipositionCrossover\n";
-        operations_out.close();
-        daughterSpecies = multipositionCrossover(bytesToGrey(data), bytesToGrey(population[0]->getData()));
-        for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
-        {
-            new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
-        }
+        multipositionCrossover(data, tmpSecondParent, new_viruses);
         break;
     case 12:
-        operations_out << "selectiveInversion\n";
-        operations_out.close();
-        daughterSpecies = selectiveInversion(bytesToGrey(data), max_daughter_amount);
-        for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
-        {
-            new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
-        }
+        selectiveInversion(data, new_viruses);
         break;
     case 13:
-        operations_out << "multichromosomalCrossover\n";
-        operations_out.close();
-        parents.push_back(bytesToGrey(data));
+        parents.push_back(data);
         for (int indexParent = 0; indexParent < parentAmount - 1; indexParent++)
         {
-            parents.push_back(bytesToGrey(population[indexParent]->getData()));
+            parents.push_back(population[indexParent]->getData());
         }
-        daughterSpecies = multichromosomalCrossover(parents, max_daughter_amount);
-        for (int indexDaughter = 0; indexDaughter < daughterSpecies.size(); indexDaughter++)
-        {
-            new_viruses.push_back(greyToBytes(daughterSpecies.at(indexDaughter)));
-        }
+        multichromosomalCrossover(parents, max_daughter_amount, new_viruses);
         break;
     default:
-        operations_out << "default\n";
-        operations_out.close();
         break;
     }
+    tmpSecondParent.clear();
+    tmpSecondParent.shrink_to_fit();
+    parents.clear();
+    parents.shrink_to_fit();
 }
 
 /**
  * Цикл алгоритма эволюции
  */
 double virusAlgorithm(
+    std::vector<Virus *> &population,
     const int elite_group_size,
     const int population_size,
     const int individual_parameter_size,
@@ -163,9 +113,8 @@ double virusAlgorithm(
     const double strain_operations_ratio)
 {
     // Создаём популяцию
-    std::vector<Virus *> population;
+    generatePopulation(population, individual_parameter_size, parameters_amount, population_size, parameters_min_values, PARAMETERS_MAX_VALUES);
     int strain_amount = 0;
-    generatePopulation(population, individual_parameter_size, parameters_amount, population_size, parameters_min_values, parameters_max_values);
     sortPopulationByFitness(population, finding_min, strain_amount);
 
     //  задаём начальные данные и текущее лучшее значение функции приспособленности
@@ -173,26 +122,6 @@ double virusAlgorithm(
     int current_step = 1;
     double optimized_value = population[0]->getFitness();
     int optimized_value_index = 0;
-
-    // файл вывода технической информации
-    std::ofstream tech_out;
-    tech_out.open("logs/tech_out.txt");
-    tech_out.close();
-
-    // файл вывода промежусточных результатов
-    std::ofstream result_out;
-    result_out.open("logs/result_out.txt");
-    result_out.close();
-
-    // файл вывода популяции на каждой итерации
-    std::ofstream population_out;
-    population_out.open("logs/population_out.txt");
-    population_out.close();
-
-    // файл вывода операций генетических операторов
-    std::ofstream operations_out;
-    operations_out.open("logs/operations_out.txt");
-    operations_out.close();
 
     // вывод количества итераций в файл
     std::ofstream iter_out;
@@ -203,20 +132,9 @@ double virusAlgorithm(
     while (empty_steps < max_empty_steps && current_step <= max_steps)
     {
         //  сортировка
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "====================================================================\n";
-        tech_out << "Current step: " << current_step << "\n";
-        tech_out << "Sort 1 " << population.size() << "\n";
-        tech_out.close();
         sortPopulationByFitness(population, finding_min, strain_amount);
 
         //  дублирование и мутация в штаммах
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Strain " << population.size() << "\n";
-        tech_out << "Strain! " << strain_amount << "\n";
-
-        tech_out.close();
-
         for (int i = 0; i < strain_amount; i++)
         {
 
@@ -229,14 +147,17 @@ double virusAlgorithm(
                 {
                     population.push_back(new Virus(new_virus, parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
                 }
+                for (int i = 0; i < new_viruses.size(); i++)
+                {
+                    new_viruses.at(i).clear();
+                    new_viruses.at(i).shrink_to_fit();
+                }
+                new_viruses.clear();
+                new_viruses.shrink_to_fit();
             }
         }
 
         //  дублирование и мутация элитной группы
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Elite " << population.size() << "\n";
-        tech_out.close();
-
         for (int i = strain_amount; i < strain_amount + elite_group_size; i++)
         {
             population.push_back(new Virus(population[i]->getData(), parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
@@ -246,30 +167,25 @@ double virusAlgorithm(
             {
                 population.push_back(new Virus(new_virus, parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
             }
+            for (int i = 0; i < new_viruses.size(); i++)
+            {
+                new_viruses.at(i).clear();
+                new_viruses.at(i).shrink_to_fit();
+            }
+            new_viruses.clear();
+            new_viruses.shrink_to_fit();
         }
 
         // Размножение обычных особей
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Basic " << population.size() << "\n";
-        tech_out.close();
-
         for (int i = strain_amount + elite_group_size; i < population_size; i++)
         {
             population.push_back(new Virus(population[i]->getData(), parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
         }
 
         // Сортировка особей по приспособленности
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Sort 2 " << population.size() << "\n";
-        tech_out.close();
-
         sortPopulationByFitness(population, finding_min, strain_amount);
 
         // Последний шанс
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Last chance " << population.size() << "\n";
-        tech_out.close();
-
         int current_population_size = population.size();
         for (int i = population_size; i < current_population_size; i++)
         {
@@ -279,73 +195,25 @@ double virusAlgorithm(
             {
                 population.push_back(new Virus(new_virus, parameters_amount, individual_parameter_size, parameters_min_values, parameters_max_values));
             }
+            for (int i = 0; i < new_viruses.size(); i++)
+            {
+                new_viruses.at(i).clear();
+                new_viruses.at(i).shrink_to_fit();
+            }
+            new_viruses.clear();
+            new_viruses.shrink_to_fit();
         }
 
         // Финальная сортировка
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Sort 3 " << population.size() << "\n";
-        tech_out.close();
-
         sortPopulationByFitness(population, finding_min, strain_amount);
 
         // Отсечение хвоста популяции
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Deleting " << population.size() << "\n";
-        tech_out.close();
-
         while (population.size() > population_size)
         {
             population.pop_back();
         }
 
-        // Вывод популяции по результатам итерации
-        population_out.open("logs/population_out.txt", std::ios::app);
-
-        population_out << "\nStep " << current_step << "\n";
-
-        for (int i = 0; i < (parameters_amount + 1) * 20 + 1; i++)
-        {
-            population_out << "-";
-        }
-        population_out << "\n";
-
-        for (int i = 0; i < parameters_amount; i++)
-        {
-            std::string tmp_string = "x[" + std::to_string(i + 1) + "]";
-            population_out << "|" << std::setw(19) << tmp_string;
-        }
-        population_out << "|" << std::setw(19) << "R"
-                       << "|\n";
-
-        for (int i = 0; i < (parameters_amount + 1) * 20 + 1; i++)
-        {
-            population_out << "-";
-        }
-        population_out << "\n";
-
-        for (int i = 0; i < population_size; i++)
-        {
-            for (int k = 0; k < parameters_amount; k++)
-            {
-                double value = population[i]->getRealParameterValue(k, individual_parameter_size, parameters_max_values[k], parameters_min_values[k]);
-                population_out << "|" << std::setw(19) << std::to_string(value);
-            }
-
-            population_out << "|" << std::setw(19) << std::to_string(population[i]->getFitness()) << "|" << population[i]->isStrain() << "\n";
-
-            for (int j = 0; j < (parameters_amount + 1) * 20 + 1; j++)
-            {
-                population_out << "-";
-            }
-            population_out << "\n";
-        }
-        population_out.close();
-
         // Обновление оптимизированного значения
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Finding opt. " << population.size() << "\n";
-        tech_out.close();
-
         bool value_changed = false;
         for (int i = 0; i < strain_amount + 1; i++)
         {
@@ -355,16 +223,6 @@ double virusAlgorithm(
                 value_changed = true;
                 optimized_value = fitness;
                 optimized_value_index = i;
-
-                result_out.open("logs/result_out.txt", std::ios::app);
-                result_out << "====================================================================\n";
-                for (int k = 0; k < parameters_amount; k++)
-                {
-                    result_out << "x[" << k + 1 << "] = " << population[i]->getRealParameterValue(k, individual_parameter_size, parameters_max_values[k], parameters_min_values[k])
-                               << "\n";
-                }
-                result_out << "R = " << std::to_string(optimized_value) << "\n";
-                result_out.close();
             }
         }
 
@@ -374,10 +232,6 @@ double virusAlgorithm(
             empty_steps++;
 
         // обновление итераций и статуса виурсов
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "Update vir. " << population.size() << "\n";
-        tech_out.close();
-
         int current_strain_amount = strain_amount;
 
         for (int i = current_strain_amount; i < current_strain_amount + elite_group_size; i++)
@@ -429,20 +283,6 @@ double virusAlgorithm(
         current_step++;
     }
 
-    // Вывод сообщения о выходе за количество пустых шагов
-    if (empty_steps >= max_empty_steps)
-    {
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "MAX_EMPTY_STEPS_EXCEED\n";
-    }
-
-    // Вывод сообщение о выходе за макимальное количество шагов
-    if (current_step >= max_steps)
-    {
-        tech_out.open("logs/tech_out.txt", std::ios::app);
-        tech_out << "MAX_STEPS_EXCEED\n";
-    }
-
     // Вывод количества итерация для тестирования
     iter_out.open("logs/iter_out.txt", std::ios::app);
     iter_out << current_step - 1 << "\n";
@@ -488,7 +328,7 @@ int main()
     // int max_daughter_amount = 100;
     // int strain_operations_ratio = 3;
 
-    int population_size = 100;
+    int population_size = 300;
     double elite_percentage = 0.4;
     double strain_percentage = 0.1;
     int individual_parameter_size = 15;
@@ -497,17 +337,20 @@ int main()
     double empty_steps_percentage = 0.2;
     int iterations_in_strain = 10;
     int iterations_for_strain = 10;
-    int max_parent_amount = 6;
+    int max_parent_amount = 5;
     int max_daughter_amount = 100;
     int strain_operations_ratio = 3;
 
-    const int N = 100;
+    const int N = 20;
     std::chrono::duration<double> sum = std::chrono::seconds(0);
     for (int i = 0; i < N; i++)
     {
         std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
+        std::vector<Virus *> population;
+
         double result = virusAlgorithm(
+            population,
             population_size * elite_percentage,  // размер элитки
             population_size,                     // размер полюции
             individual_parameter_size,           // размер булевого вектора одного параметра (влияет на точность значений)
@@ -525,6 +368,9 @@ int main()
             max_daughter_amount,                 // макс количество детей ген операторов
             strain_operations_ratio              // коэф колиечтсва действий штаммов
         );
+
+        population.clear();
+        population.shrink_to_fit();
 
         std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
@@ -560,8 +406,12 @@ int main()
     }
     else
     {
-        std::cout << "Avg. time: " << "--------------" << " sec.\n";
-        std::cout << "Avg. iter.: " << "--------------" << "\n";
+        std::cout << "Avg. time: "
+                  << "--------------"
+                  << " sec.\n";
+        std::cout << "Avg. iter.: "
+                  << "--------------"
+                  << "\n";
         std::cout << "Conv. perc.: " << 0 << "\n";
     }
 

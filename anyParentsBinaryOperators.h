@@ -4,17 +4,16 @@
  * Функция выполняет сегрегацию
  *
  * @param parents - вектор родительских особей
- *
- * @return Возвращает дочернюю особь
+ * @param new_viruses - вектор вывода новых особей
+ * 
  */
-std::vector<bool> segregation(std::vector<std::vector<bool>> parents);
+void segregation(std::vector<std::vector<bool>> &parents, std::vector<std::vector<bool>> &new_viruses);
 
 /**
  * Функция выполняет многохромосомный кроссовер
  *
  * @param parents - вектор родительских особей
  * @param max_daughter_amount - максимальное количество дочерних особей
- *
- * @return Возвращает множество дочерних особей
+ * @param new_viruses - вектор вывода новых особей
  */
-std::vector<std::vector<bool>> multichromosomalCrossover(std::vector<std::vector<bool>> parents, const int max_daughter_amount);
+void multichromosomalCrossover(std::vector<std::vector<bool>> &parents, const int max_daughter_amount, std::vector<std::vector<bool>> &new_viruses);

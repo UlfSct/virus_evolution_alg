@@ -37,10 +37,10 @@ const int ITERATIONS_FOR_STRAIN = 10;
 const int ITERATIONS_IN_STRAIN = 10;
 
 // Константа максимального количества штаммов
-const int MAX_STRAIN_AMOUNT = 100;
+const int MAX_STRAIN_AMOUNT = 100;//120
 
 // Константа максимального количества родительских особей
-const int MAX_PARENT_AMOUNT = 6;
+const int MAX_PARENT_AMOUNT = 6;//5
 
 // Константа максимально количества дочерних особей
 const int MAX_DAUGHTER_AMOUNT = 50;
