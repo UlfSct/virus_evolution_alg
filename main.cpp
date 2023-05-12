@@ -113,7 +113,7 @@ double virusAlgorithm(
     const double strain_operations_ratio)
 {
     // Создаём популяцию
-    generatePopulation(population, individual_parameter_size, PARAMETERS_AMOUNT, population_size, PARAMETERS_MIN_VALUES, PARAMETERS_MAX_VALUES);
+    generatePopulation(population, individual_parameter_size, parameters_amount, population_size, parameters_min_values, PARAMETERS_MAX_VALUES);
     int strain_amount = 0;
     sortPopulationByFitness(population, finding_min, strain_amount);
 

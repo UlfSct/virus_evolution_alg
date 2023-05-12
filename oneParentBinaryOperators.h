@@ -4,6 +4,7 @@
  * Функция выполняет операцию транслокации
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
  * @return Возвращает мутировшую особь
  */
@@ -13,6 +14,7 @@ void translocation(std::vector<bool> &parent, std::vector<std::vector<bool>> &ne
  * Функция выполняет базовую мутацию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
  */
 void basicMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
@@ -21,6 +23,7 @@ void basicMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &ne
  * Функция выполняет базовую инверсию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
  */
 void basicInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
@@ -29,6 +32,7 @@ void basicInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &n
  * Функция выполняет многопозиционную мутацию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
  */
 void multipositionMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
@@ -37,6 +41,7 @@ void multipositionMutation(std::vector<bool> &parent, std::vector<std::vector<bo
  * Функция выполняет дупликацию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
  */
 void duplication(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
@@ -45,6 +50,7 @@ void duplication(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_
  * Функция выполняет многопозиционную инверсию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
  */
 void multipositionInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
@@ -53,8 +59,8 @@ void multipositionInversion(std::vector<bool> &parent, std::vector<std::vector<b
  * Функция выполняет селективную мутацию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
- * @return Возвращает множество вариантов мутировших особей
  */
 void selectiveMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
 
@@ -62,7 +68,7 @@ void selectiveMutation(std::vector<bool> &parent, std::vector<std::vector<bool>>
  * Функция выполняет селективную инверсию
  *
  * @param parent -родительская особь
+ * @param new_viruses - вектор вывода новых особей
  *
- * @return Возвращает множество вариантов инверсированных особей
  */
 void selectiveInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses);
