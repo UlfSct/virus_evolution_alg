@@ -6,9 +6,8 @@
  * @param firstParent - первая родительская особь
  * @param secondParent -вторая родительская особь
  *
- * @return Возвращает две дочерние особи
  */
-std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent);
+void basicCrossover(std::vector<bool> &firstParent, std::vector<bool> &secondParent, std::vector<std::vector<bool>> &new_viruses);
 
 /**
  * Функция выполняет многопозиционный кроссовер
@@ -16,9 +15,8 @@ std::vector<std::vector<bool>> basicCrossover(std::vector<bool> firstParent, std
  * @param firstParent - первая родительская особь
  * @param secondParent -вторая родительская особь
  *
- * @return Возвращает две дочерние особи
  */
-std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent);
+void multipositionCrossover(std::vector<bool> &firstParent, std::vector<bool> &secondParent, std::vector<std::vector<bool>> &new_viruses);
 
 /**
  * Функция выполняет однородный кроссовер
@@ -26,6 +24,5 @@ std::vector<std::vector<bool>> multipositionCrossover(std::vector<bool> firstPar
  * @param firstParent - первая родительская особь
  * @param secondParent -вторая родительская особь
  *
- * @return Возвращает две дочерние особи
  */
-std::vector<std::vector<bool>> homogeneousCrossover(std::vector<bool> firstParent, std::vector<bool> secondParent);
+void homogeneousCrossover(std::vector<bool> &firstParent, std::vector<bool> &secondParent, std::vector<std::vector<bool>> &new_viruses);

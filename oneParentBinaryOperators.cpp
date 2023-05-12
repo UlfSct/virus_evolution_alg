@@ -1,6 +1,6 @@
 #include "oneParentBinaryOperators.h"
 
-std::vector<bool> translocation(std::vector<bool> parent)
+void translocation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "translocation\n";
     srand(time(NULL));
@@ -19,40 +19,46 @@ std::vector<bool> translocation(std::vector<bool> parent)
 
     } while (genePositionFirst > genePositionLast || genePositionFirst <= 0 || genePositionFirst == genePositionLast);
 
+    std::vector<bool> greyParent = bytesToGrey(parent);
     std::vector<bool> tmpParent;
 
     for (int genePosition = genePositionFirst; genePosition <= genePositionLast; genePosition++)
     {
-        tmpParent.push_back(parent[genePosition]);
+        tmpParent.push_back(greyParent[genePosition]);
     }
 
     std::reverse(tmpParent.begin(), tmpParent.end());
 
     for (int geneParentPosition = genePositionFirst, geneTmpParentPosition = 0; geneTmpParentPosition < tmpParent.size(); geneParentPosition++, geneTmpParentPosition++)
     {
-        parent[geneParentPosition] = tmpParent[geneTmpParentPosition];
+        greyParent[geneParentPosition] = tmpParent[geneTmpParentPosition];
     }
 
     tmpParent.clear();
-
-    return parent;
+    tmpParent.shrink_to_fit();
+    new_viruses.push_back(greyToBytes(greyParent));
+    greyParent.clear();
+    greyParent.shrink_to_fit();
 }
 
-std::vector<bool> basicMutation(std::vector<bool> parent)
+void basicMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "basicMutation\n";
+    std::vector<bool> tmpParent = bytesToGrey(parent);
     if (parent.size() == 0)
     {
         std::cout << "The size of the vector is zero\n";
         exit(1);
     }
-    int geneNumber = rand() % parent.size();
-    parent.at(geneNumber) = !parent.at(geneNumber);
+    int geneNumber = rand() % tmpParent.size();
+    tmpParent.at(geneNumber) = !tmpParent.at(geneNumber);
 
-    return parent;
+    new_viruses.push_back(greyToBytes(tmpParent));
+    tmpParent.clear();
+    tmpParent.shrink_to_fit();
 }
 
-std::vector<bool> basicInversion(std::vector<bool> parent)
+void basicInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "basicInversion\n";
     if (parent.size() == 0)
@@ -60,15 +66,20 @@ std::vector<bool> basicInversion(std::vector<bool> parent)
         std::cout << "The size of the vector is zero\n";
         exit(1);
     }
-    std::vector<bool> invertedParent(parent.size());
-    int inversionPosition = 1 + rand() % (parent.size() - 1);
-    std::copy(parent.begin() + inversionPosition, parent.end(), invertedParent.begin());
-    std::copy(parent.begin(), parent.begin() + inversionPosition, invertedParent.begin() + invertedParent.size() - inversionPosition);
+    std::vector<bool> tmpParent = greyToBytes(parent);
+    std::vector<bool> invertedParent(tmpParent.size());
+    int inversionPosition = 1 + rand() % (tmpParent.size() - 1);
+    std::copy(tmpParent.begin() + inversionPosition, tmpParent.end(), invertedParent.begin());
+    std::copy(tmpParent.begin(), tmpParent.begin() + inversionPosition, invertedParent.begin() + invertedParent.size() - inversionPosition);
 
-    return invertedParent;
+    new_viruses.push_back(greyToBytes(invertedParent));
+    tmpParent.clear();
+    tmpParent.shrink_to_fit();
+    invertedParent.clear();
+    invertedParent.shrink_to_fit();
 }
 
-std::vector<bool> multipositionMutation(std::vector<bool> parent)
+void multipositionMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "multipositionMutation\n";
     if (parent.size() == 0)
@@ -78,10 +89,11 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
     }
     int mutationCount = 2 + rand() % (parent.size() - 1);
     std::vector<int> mutatedGenes;
+    std::vector<bool> tmpParent = bytesToGrey(parent);
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
     {
         bool usedValue = false;
-        int geneNumber = rand() % parent.size();
+        int geneNumber = rand() % tmpParent.size();
 
         for (int mutatedGenesIndex = 0; mutatedGenesIndex < mutationIndex; mutatedGenesIndex++)
         {
@@ -95,17 +107,19 @@ std::vector<bool> multipositionMutation(std::vector<bool> parent)
         if (!usedValue)
         {
             mutatedGenes.push_back(geneNumber);
-            parent.at(geneNumber) = !parent.at(geneNumber);
+            tmpParent.at(geneNumber) = !tmpParent.at(geneNumber);
             mutationIndex++;
         }
     }
 
     mutatedGenes.clear();
-
-    return parent;
+    mutatedGenes.shrink_to_fit();
+    new_viruses.push_back(greyToBytes(tmpParent));
+    tmpParent.clear();
+    tmpParent.shrink_to_fit();
 }
 
-std::vector<bool> duplication(std::vector<bool> parent)
+void duplication(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "duplication\n";
     if (parent.size() == 0)
@@ -114,7 +128,7 @@ std::vector<bool> duplication(std::vector<bool> parent)
         exit(1);
     }
     std::vector<bool> duplicatedParent;
-    duplicatedParent = parent;
+    duplicatedParent = bytesToGrey(parent);
     int copySize = 0;
     int copyStartPosition = rand() % duplicatedParent.size();
     copySize = 1 + rand() % (duplicatedParent.size() - 1);
@@ -136,11 +150,13 @@ std::vector<bool> duplication(std::vector<bool> parent)
     }
 
     copyGenes.clear();
-
-    return duplicatedParent;
+    copyGenes.shrink_to_fit();
+    new_viruses.push_back(greyToBytes(duplicatedParent));
+    duplicatedParent.clear();
+    duplicatedParent.shrink_to_fit();
 }
 
-std::vector<bool> multipositionInversion(std::vector<bool> parent)
+void multipositionInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "multipositionInversion\n";
     if (parent.size() == 0)
@@ -149,12 +165,13 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
         exit(1);
     }
     std::vector<bool> invertedParent;
+    std::vector<bool> tmpParent = bytesToGrey(parent);
     int divisionCount = 2 + rand() % (parent.size() - 2);
     std::vector<int> dividingPositions;
     for (int divisionIndex = 0; divisionIndex < divisionCount;)
     {
         bool usedValue = false;
-        int inversionPosition = 1 + rand() % (parent.size() - 1);
+        int inversionPosition = 1 + rand() % (tmpParent.size() - 1);
         for (int inversionPositionIndex = 0; inversionPositionIndex < divisionIndex; inversionPositionIndex++)
         {
             if (dividingPositions.at(inversionPositionIndex) == inversionPosition)
@@ -178,14 +195,14 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
     {
         for (geneIndex; geneIndex < dividingPositions.at(fragmentIndex); geneIndex++)
         {
-            parentFragments.at(fragmentIndex).push_back(parent.at(geneIndex));
+            parentFragments.at(fragmentIndex).push_back(tmpParent.at(geneIndex));
         }
     }
-    for (geneIndex; geneIndex < parent.size(); geneIndex++)
+    for (geneIndex; geneIndex < tmpParent.size(); geneIndex++)
     {
-        parentFragments.at(parentFragments.size() - 1).push_back(parent.at(geneIndex));
+        parentFragments.at(parentFragments.size() - 1).push_back(tmpParent.at(geneIndex));
     }
-    while (invertedParent.size() != parent.size())
+    while (invertedParent.size() != tmpParent.size())
     {
         int fragmentIndex = rand() % parentFragments.size();
         invertedParent.insert(invertedParent.end(), parentFragments.at(fragmentIndex).begin(), parentFragments.at(fragmentIndex).end());
@@ -196,12 +213,17 @@ std::vector<bool> multipositionInversion(std::vector<bool> parent)
     numberAttempts++;
 
     dividingPositions.clear();
+    dividingPositions.shrink_to_fit();
     parentFragments.clear();
-
-    return invertedParent;
+    parentFragments.shrink_to_fit();
+    tmpParent.clear();
+    tmpParent.shrink_to_fit();
+    new_viruses.push_back(greyToBytes(invertedParent));
+    invertedParent.clear();
+    invertedParent.shrink_to_fit();
 }
 
-std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
+void selectiveMutation(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "selectiveMutation\n";
     if (parent.size() == 0)
@@ -210,7 +232,7 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
         exit(1);
     }
     int mutationCount = 2 + rand() % 10;
-    std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, parent);
+    std::vector<std::vector<bool>> variantsMutatedIndividuals(mutationCount, bytesToGrey(parent));
     std::vector<int> mutatedGenes;
     for (int mutationIndex = 0; mutationIndex < mutationCount;)
     {
@@ -234,11 +256,21 @@ std::vector<std::vector<bool>> selectiveMutation(std::vector<bool> parent)
     }
 
     mutatedGenes.clear();
-
-    return variantsMutatedIndividuals;
+    mutatedGenes.shrink_to_fit();
+    for (int mutationIndex = 0; mutationIndex < mutationCount; mutationIndex++)
+    {
+        new_viruses.push_back(greyToBytes(variantsMutatedIndividuals.at(mutationIndex)));
+    }
+    for (int i = 0; i < variantsMutatedIndividuals.size(); i++)
+    {
+        variantsMutatedIndividuals.at(i).clear();
+        variantsMutatedIndividuals.at(i).shrink_to_fit();
+    }
+    variantsMutatedIndividuals.clear();
+    variantsMutatedIndividuals.shrink_to_fit();
 }
 
-std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
+void selectiveInversion(std::vector<bool> &parent, std::vector<std::vector<bool>> &new_viruses)
 {
     // std::cout << "selectiveInversion\n";
     if (parent.size() == 0)
@@ -248,7 +280,7 @@ std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
     }
     int inversionCount = 2 + rand() % 10;
     std::vector<bool> invertedIndividuals;
-    invertedIndividuals = parent;
+    invertedIndividuals = bytesToGrey(parent);
     std::vector<std::vector<bool>> variantsInvertedIndividuals(inversionCount, invertedIndividuals);
     std::vector<int> usedPosition;
     for (int inversionIndex = 0; inversionIndex < inversionCount;)
@@ -274,7 +306,18 @@ std::vector<std::vector<bool>> selectiveInversion(std::vector<bool> parent)
     }
 
     invertedIndividuals.clear();
+    invertedIndividuals.shrink_to_fit();
     usedPosition.clear();
-
-    return variantsInvertedIndividuals;
+    usedPosition.shrink_to_fit();
+    for (int inversionIndex = 0; inversionIndex < inversionCount; inversionIndex++)
+    {
+        new_viruses.push_back(greyToBytes(variantsInvertedIndividuals.at(inversionIndex)));
+    }
+    for (int i = 0; i < variantsInvertedIndividuals.size(); i++)
+    {
+        variantsInvertedIndividuals.at(i).clear();
+        variantsInvertedIndividuals.at(i).shrink_to_fit();
+    }
+    variantsInvertedIndividuals.clear();
+    variantsInvertedIndividuals.shrink_to_fit();
 }

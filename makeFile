@@ -1,2 +1,2 @@
 all:
-	g++ main.cpp oneParentBinaryOperators.cpp twoParentsBinaryOperators.cpp anyParentsBinaryOperators.cpp RFunction.cpp helper.cpp Virus.cpp -o main.exe
+	g++ main.cpp converters.cpp oneParentBinaryOperators.cpp twoParentsBinaryOperators.cpp anyParentsBinaryOperators.cpp RFunction.cpp helper.cpp Virus.cpp -o main.exe

@@ -53,24 +53,6 @@ void quickSort(std::vector<Virus *> &population, int low, int high, bool finding
 void sortPopulationByFitness(std::vector<Virus *> &population, bool finding_min, const int strain_amount);
 
 /**
- * Функция выполняет перевод из двоичного кода в код Грея
- *
- * @param data - вектор особи в двоичном представление
- *
- * @returns - Возвращает вектор особи в коде Грея
- */
-std::vector<bool> bytesToGrey(std::vector<bool> data);
-
-/**
- * Функция выполняет перевод из кода Грея в двоичный код
- *
- * @param data - вектор особи в коде Грея
- *
- * @returns - Возвращает вектор особи в двоичном представление
- */
-std::vector<bool> greyToBytes(std::vector<bool> data);
-
-/**
  * Функция расчитывает расстояние хэмминга
  *
  * @param elite - вектор элитной особи
